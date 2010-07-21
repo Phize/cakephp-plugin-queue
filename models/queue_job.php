@@ -270,8 +270,16 @@ class QueueJob extends QueueAppModel {
 	public function update($data = null, $isCurrent = false) {
 		$whitelist = array(
 			$this->primaryKey,
+			$this->belongsTo['QueueQueue']['foreignKey'],
 			'name',
-			'polling_delay',
+			'type',
+			'priority',
+			'recursive',
+			'interval',
+			'retry_delay',
+			'max_tries',
+			'parameters',
+			'scheduled',
 			'status'
 		);
 

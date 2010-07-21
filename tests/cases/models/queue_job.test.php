@@ -99,89 +99,99 @@ class QueueJobTestCase extends CakeTestCase {
 		$this->assertIdentical($result, false);
 		$this->assertIdentical($this->QueueJob->selected(), array());
 
+		$current = $this->QueueJob->select(1);
 		$this->QueueJob->deselect();
 		$data = array(
-			'queue_id' => 1,
-			'name' => 'Job 1',
-			'type' => 'job',
-			'priority' => 50,
-			'recursive' => 1,
-			'interval' => 86400,
-			'retry_delay' => 60,
+			'queue_id' => '1',
+			'name' => 'Job 900',
+			'type' => 'job 900',
+			'priority' => '99',
+			'recursive' => '0',
+			'interval' => '60',
+			'retry_delay' => '10',
 			'scheduled' => date('Y-m-d H:i:s'),
 			'status' => 'running'
 		);
 		$result = $this->QueueJob->update($data, false);
 		$this->assertIdentical($result, false);
 		$this->assertIdentical($this->QueueJob->selected(), array());
+		$this->assertIdentical($this->QueueJob->select(1), $current);
 
+		$current = $this->QueueJob->select(1);
 		$this->QueueJob->deselect();
 		$data = array(
-			'queue_id' => 1,
-			'name' => 'Job 1',
-			'type' => 'job',
-			'priority' => 50,
-			'recursive' => 1,
-			'interval' => 86400,
-			'retry_delay' => 60,
+			'queue_id' => '1',
+			'name' => 'Job 900',
+			'type' => 'job 900',
+			'priority' => '99',
+			'recursive' => '0',
+			'interval' => '60',
+			'retry_delay' => '10',
 			'scheduled' => date('Y-m-d H:i:s'),
 			'status' => 'running'
 		);
 		$result = $this->QueueJob->update($data, true);
 		$this->assertIdentical($result, false);
 		$this->assertIdentical($this->QueueJob->selected(), array());
+		$this->assertIdentical($this->QueueJob->select(1), $current);
 
+		$current = $this->QueueJob->select(1);
 		$this->QueueJob->deselect();
-		$data = array(
-			$this->QueueJob->primaryKey => 1,
-			'queue_id' => 1,
-			'name' => 'Job 1',
-			'type' => 'job',
-			'priority' => 50,
-			'recursive' => 1,
-			'interval' => 86400,
-			'retry_delay' => 60,
+		$data = array_merge($current, array(
+			$this->QueueJob->primaryKey => '1',
+			'queue_id' => '1',
+			'name' => 'Job 900',
+			'type' => 'job 900',
+			'priority' => '99',
+			'recursive' => '0',
+			'interval' => '60',
+			'retry_delay' => '10',
 			'scheduled' => date('Y-m-d H:i:s'),
 			'status' => 'running'
-		);
+		));
 		$this->QueueJob->import($data);
 		$result = $this->QueueJob->update();
 		$this->assertIdentical($result, true);
 		$this->assertIdentical($this->QueueJob->selected(), $data);
+		$this->assertIdentical($this->QueueJob->select(1), $data);
 
+		$current = $this->QueueJob->select(1);
 		$this->QueueJob->deselect();
-		$data = array(
-			$this->QueueJob->primaryKey => 1,
-			'queue_id' => 1,
-			'name' => 'Job 1',
-			'type' => 'job',
-			'priority' => 50,
-			'recursive' => 1,
-			'interval' => 86400,
-			'retry_delay' => 60,
+		$data = array_merge($current, array(
+			$this->QueueJob->primaryKey => '1',
+			'queue_id' => '1',
+			'name' => 'Job 900',
+			'type' => 'job 900',
+			'priority' => '99',
+			'recursive' => '0',
+			'interval' => '60',
+			'retry_delay' => '10',
 			'scheduled' => date('Y-m-d H:i:s'),
 			'status' => 'running'
-		);
+		));
 		$result = $this->QueueJob->update($data, false);
 		$this->assertIdentical($result, true);
 		$this->assertIdentical($this->QueueJob->selected(), array());
+		$this->assertIdentical($this->QueueJob->select(1), $data);
 
+		$current = $this->QueueJob->select(1);
 		$this->QueueJob->deselect();
-		$data = array(
-			$this->QueueJob->primaryKey => 1,
-			'queue_id' => 1,
-			'name' => 'Job 1',
-			'type' => 'job',
-			'priority' => 50,
-			'recursive' => 1,
-			'interval' => 86400,
-			'retry_delay' => 60,
+		$data = array_merge($current, array(
+			$this->QueueJob->primaryKey => '1',
+			'queue_id' => '1',
+			'name' => 'Job 900',
+			'type' => 'job 900',
+			'priority' => '99',
+			'recursive' => '0',
+			'interval' => '60',
+			'retry_delay' => '10',
 			'scheduled' => date('Y-m-d H:i:s'),
 			'status' => 'running'
-		);
+		));
 		$result = $this->QueueJob->update($data, true);
 		$this->assertIdentical($result, true);
 		$this->assertIdentical($this->QueueJob->selected(), $data);
+		$this->assertIdentical($this->QueueJob->select(1), $data);
 	}
 
 	/**
