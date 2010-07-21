@@ -1,0 +1,6 @@
+プラグインの設定
+================================================================================
+/app/plugins/queue/config/core.php でプラグインの設定。
+/app/config/core.php でプラグインの設定を読み込み。
+
+	App::import('File', 'Queue.Core', array('file' => APP . 'plugins' . DS . 'queue' . DS . 'config' . DS . 'core.php'));
