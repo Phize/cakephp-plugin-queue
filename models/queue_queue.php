@@ -3,6 +3,9 @@
  * キュークラス
  *
  * キューの取得、ジョブデータの更新等を行う
+ *
+ * @todo 不正終了したジョブのクリーン処理
+ * @todo 完了済みジョブの削除
  */
 class QueueQueue extends QueueAppModel {
 	/**
@@ -92,6 +95,7 @@ class QueueQueue extends QueueAppModel {
 	 * @param string $name キュー名
 	 * @param array $options オプション
 	 * @return boolean 処理の成否
+	 * @todo カレントキューの更新機能を追加
 	 */
 	public function add($name, $options = array()) {
 		$whitelist = array(

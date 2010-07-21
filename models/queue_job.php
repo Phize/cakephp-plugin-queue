@@ -197,6 +197,7 @@ class QueueJob extends QueueAppModel {
 	 * @param string $type ジョブタイプ
 	 * @param array $options オプション
 	 * @return boolean 処理の成否
+	 * @todo カレントジョブの更新機能を追加
 	 */
 	public function add($queueId, $name, $type, $options = array()) {
 		$whitelist = array(
