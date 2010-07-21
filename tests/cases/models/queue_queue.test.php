@@ -74,64 +74,76 @@ class QueueQueueTestCase extends CakeTestCase {
 	 * update()のテスト
 	 */
 	public function testUpdate() {
+		$current = $this->QueueQueue->select(1);
 		$this->QueueQueue->deselect();
 		$result = $this->QueueQueue->update();
 		$this->assertIdentical($result, false);
 		$this->assertIdentical($this->QueueQueue->selected(), array());
+		$this->assertIdentical($this->QueueQueue->select(1), $current);
 
+		$current = $this->QueueQueue->select(1);
 		$this->QueueQueue->deselect();
 		$data = array(
-			'name' => 'Queue 1',
-			'polling_delay' => 1,
+			'name' => 'Queue 900',
+			'polling_delay' => '3',
 			'status' => 'running'
 		);
 		$result = $this->QueueQueue->update($data, false);
 		$this->assertIdentical($result, false);
 		$this->assertIdentical($this->QueueQueue->selected(), array());
+		$this->assertIdentical($this->QueueQueue->select(1), $current);
 
+		$current = $this->QueueQueue->select(1);
 		$this->QueueQueue->deselect();
 		$data = array(
-			'name' => 'Queue 1',
-			'polling_delay' => 1,
+			'name' => 'Queue 900',
+			'polling_delay' => '3',
 			'status' => 'running'
 		);
 		$result = $this->QueueQueue->update($data, true);
 		$this->assertIdentical($result, false);
 		$this->assertIdentical($this->QueueQueue->selected(), array());
+		$this->assertIdentical($this->QueueQueue->select(1), $current);
 
+		$current = $this->QueueQueue->select(1);
 		$this->QueueQueue->deselect();
-		$data = array(
-			$this->QueueQueue->primaryKey => 1,
-			'name' => 'Queue 1',
-			'polling_delay' => 1,
+		$data = array_merge($current, array(
+			$this->QueueQueue->primaryKey => '1',
+			'name' => 'Queue 900',
+			'polling_delay' => '3',
 			'status' => 'running'
-		);
+		));
 		$this->QueueQueue->import($data);
 		$result = $this->QueueQueue->update();
 		$this->assertIdentical($result, true);
 		$this->assertIdentical($this->QueueQueue->selected(), $data);
+		$this->assertIdentical($this->QueueQueue->select(1), $data);
 
+		$current = $this->QueueQueue->select(1);
 		$this->QueueQueue->deselect();
-		$data = array(
-			$this->QueueQueue->primaryKey => 1,
-			'name' => 'Queue 1',
-			'polling_delay' => 1,
+		$data = array_merge($current, array(
+			$this->QueueQueue->primaryKey => '1',
+			'name' => 'Queue 900',
+			'polling_delay' => '3',
 			'status' => 'running'
-		);
+		));
 		$result = $this->QueueQueue->update($data, false);
 		$this->assertIdentical($result, true);
 		$this->assertIdentical($this->QueueQueue->selected(), array());
+		$this->assertIdentical($this->QueueQueue->select(1), $data);
 
+		$current = $this->QueueQueue->select(1);
 		$this->QueueQueue->deselect();
-		$data = array(
-			$this->QueueQueue->primaryKey => 1,
-			'name' => 'Queue 1',
-			'polling_delay' => 1,
+		$data = array_merge($current, array(
+			$this->QueueQueue->primaryKey => '1',
+			'name' => 'Queue 900',
+			'polling_delay' => '3',
 			'status' => 'running'
-		);
+		));
 		$result = $this->QueueQueue->update($data, true);
 		$this->assertIdentical($result, true);
 		$this->assertIdentical($this->QueueQueue->selected(), $data);
+		$this->assertIdentical($this->QueueQueue->select(1), $data);
 	}
 
 	/**
