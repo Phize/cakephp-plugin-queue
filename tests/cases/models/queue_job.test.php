@@ -94,10 +94,12 @@ class QueueJobTestCase extends CakeTestCase {
 	 * update()のテスト
 	 */
 	public function testUpdate() {
+		$current = $this->QueueJob->select(1);
 		$this->QueueJob->deselect();
 		$result = $this->QueueJob->update();
 		$this->assertIdentical($result, false);
 		$this->assertIdentical($this->QueueJob->selected(), array());
+		$this->assertIdentical($this->QueueJob->select(1), $current);
 
 		$current = $this->QueueJob->select(1);
 		$this->QueueJob->deselect();
