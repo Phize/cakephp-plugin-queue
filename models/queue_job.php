@@ -51,13 +51,13 @@ class QueueJob extends QueueAppModel {
 		'queue_id' => array(
 			'primaryKeyExistsOnCreate' => array(
 				'rule' => array('primaryKeyExists', 'Queue.QueueQueue'),
-				'required' => false,
+				'required' => true,
 				'allowEmpty' => false,
 				'on' => 'create'
 			),
 			'isUniqueWithOnCreate' => array(
 				'rule' => array('isUniqueWith', 'name'),
-				'required' => false,
+				'required' => true,
 				'allowEmpty' => false,
 				'on' => 'create'
 			),
