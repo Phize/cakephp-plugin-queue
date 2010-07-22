@@ -35,11 +35,23 @@ class QueueLog extends QueueAppModel {
 			)
 		),
 		'job_id' => array(
+			'isDecimalOnCreate' => array(
+				'rule' => array('custom', '/^\d+$/'),
+				'required' => true,
+				'allowEmpty' => false,
+				'on' => 'create'
+			),
 			'existsOnCreate' => array(
 				'rule' => array('primaryKeyExists', 'Queue.QueueJob'),
 				'required' => true,
 				'allowEmpty' => false,
 				'on' => 'create'
+			),
+			'isDecimalOnUpdate' => array(
+				'rule' => array('custom', '/^\d+$/'),
+				'required' => false,
+				'allowEmpty' => false,
+				'on' => 'update'
 			),
 			'existsOnUpdate' => array(
 				'rule' => array('primaryKeyExists', 'Queue.QueueJob'),

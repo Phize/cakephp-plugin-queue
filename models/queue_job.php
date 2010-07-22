@@ -49,6 +49,12 @@ class QueueJob extends QueueAppModel {
 			)
 		),
 		'queue_id' => array(
+			'isDecimalOnCreate' => array(
+				'rule' => array('custom', '/^\d+$/'),
+				'required' => true,
+				'allowEmpty' => false,
+				'on' => 'create'
+			),
 			'primaryKeyExistsOnCreate' => array(
 				'rule' => array('primaryKeyExists', 'Queue.QueueQueue'),
 				'required' => true,
@@ -60,6 +66,12 @@ class QueueJob extends QueueAppModel {
 				'required' => true,
 				'allowEmpty' => false,
 				'on' => 'create'
+			),
+			'isDecimalOnUpdate' => array(
+				'rule' => array('custom', '/^\d+$/'),
+				'required' => false,
+				'allowEmpty' => false,
+				'on' => 'update'
 			),
 			'primaryKeyExistsOnUpdate' => array(
 				'rule' => array('primaryKeyExists', 'Queue.QueueQueue'),
