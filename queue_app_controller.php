@@ -12,4 +12,13 @@ class QueueAppController extends AppController {
 	 * @var array
 	 */
 	protected $config = array();
+
+	/**
+	 * コンストラクター
+	 */
+    function __construct() {
+		parent::__construct();
+
+		$this->config = Configure::read('Queue');
+	}
 }
