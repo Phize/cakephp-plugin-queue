@@ -416,9 +416,10 @@ class QueueJob extends QueueAppModel {
 	 * 次のジョブを取得
 	 *
 	 * @param integer $queueId キューID
+	 * @param array $types ジョブタイプ
 	 * @return array ジョブの読み込みに成功した場合はデータ、失敗した場合はfalse
 	 */
-	public function next($queueId) {
+	public function next($queueId, $types = null) {
 		$options = array(
 			'conditions' => array(
 				$this->alias . '.' . $this->belongsTo['QueueQueue']['foreignKey'] => $queueId,
@@ -432,6 +433,18 @@ class QueueJob extends QueueAppModel {
 				$this->alias . '.' . $this->primaryKey => 'asc'
 			)
 		);
+
+		// ジョブタイプの検索条件を生成
+		if ($types !== null) {
+			if (!is_array($types)) $types = array($types);
+
+			$type_conditions = array();
+			foreach ($types as $type) {
+				$type_conditions[] = array($this->alias . '.type' => $type);
+			}
+
+			$options['conditions']['and'] = array('or' => $type_conditions);
+		}
 
 		$data = $this->find('first', $options);
 		if (empty($data)) return false;
