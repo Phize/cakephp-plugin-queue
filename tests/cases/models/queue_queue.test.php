@@ -441,18 +441,44 @@ class QueueQueueTestCase extends CakeTestCase {
 
 		$this->QueueQueue->select(1);
 		$result = $this->QueueQueue->dequeue();
+		$this->assertNotIdentical($result, false);
+
+		$result = $this->QueueQueue->dequeue(null, 2);
 		$this->QueueQueue->QueueJob->select($result['id']);
 		$this->QueueQueue->QueueJob->begin();
 		$this->QueueQueue->QueueJob->completed();
 		$this->assertNotIdentical($result, false);
 
-		$result = $this->QueueQueue->dequeue(2);
+		$result = $this->QueueQueue->dequeue(null, 2);
+		$this->assertIdentical($result, false);
+
+		$this->QueueQueue->select(1);
+		$result = $this->QueueQueue->dequeue('job 1');
 		$this->QueueQueue->QueueJob->select($result['id']);
 		$this->QueueQueue->QueueJob->begin();
 		$this->QueueQueue->QueueJob->completed();
 		$this->assertNotIdentical($result, false);
 
-		$result = $this->QueueQueue->dequeue(2);
+		$this->QueueQueue->select(1);
+		$result = $this->QueueQueue->dequeue('job 1');
+		$this->assertIdentical($result, false);
+
+		$this->QueueQueue->select(1);
+		$result = $this->QueueQueue->dequeue('job 2');
+		$this->QueueQueue->QueueJob->select($result['id']);
+		$this->QueueQueue->QueueJob->begin();
+		$this->QueueQueue->QueueJob->completed();
+		$this->assertNotIdentical($result, false);
+
+		$this->QueueQueue->select(1);
+		$result = $this->QueueQueue->dequeue(array('job 1', 'job 2'));
+		$this->QueueQueue->QueueJob->select($result['id']);
+		$this->QueueQueue->QueueJob->begin();
+		$this->QueueQueue->QueueJob->completed();
+		$this->assertNotIdentical($result, false);
+
+		$this->QueueQueue->select(1);
+		$result = $this->QueueQueue->dequeue(array('job 1', 'job 2'));
 		$this->assertIdentical($result, false);
 	}
 }

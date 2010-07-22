@@ -411,12 +411,13 @@ class QueueQueue extends QueueAppModel {
 	/**
 	 * キューからジョブを取得
 	 *
+	 * @param array $types ジョブタイプ
 	 * @param integer $id キューID
 	 * @return array ジョブの取得に成功した場合はデータ、失敗した場合はfalse
 	 */
-	public function dequeue($id = null) {
+	public function dequeue($types = null, $id = null) {
 		if (($id = $this->_getId($id)) === false) return false;
 
-		return $this->QueueJob->next($id);
+		return $this->QueueJob->next($id, $types);
 	}
 }
