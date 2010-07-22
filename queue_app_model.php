@@ -62,15 +62,20 @@ class QueueAppModel extends AppModel {
 	/**
 	 * キーが存在するか検証
 	 *
+	 * $modelは Model または Plugin.Model の形式で指定する
+	 * 関連するテーブルのデータとともにsaveAll()でレコードを作成する場合は、
+	 * 外部キーが参照するデータの挿入前に検証が行われる場合があるため、正しい検証が行えない
+	 *
 	 * @param array $data データ
 	 * @param string model モデル名
 	 * @return boolean 検証の結果
-	 * @todo saveAll()での保存に対応させる
 	 */
 	public function primaryKeyExists($data, $model) {
 		$field = key($data);
 
-		list($plugin, $class) = pluginSplit($model);
+		if (strpos($model, '.') !== false) {
+			list($plugin, $class) = pluginSplit($model);
+		}
 
 		$result = $this->{$class}->find('count',
 			array(
@@ -89,7 +94,7 @@ class QueueAppModel extends AppModel {
 	 * $fieldsにarray(フィールド名)と指定した場合に、フィールド全てのデータが$this->dataに存在している必要がある
      * 指定したフィールドのデータが存在しない場合は、そのフィールド値はnullとして扱われる
 	 * $fieldsで指定したフィールドを省略してデータを更新する場合や、
-	 * $fieldsで指定したフィールドを省略してデータベースのデフォルト値を使用する場合には、正しい検証が行えないため注意が必要
+	 * $fieldsで指定したフィールドを省略してデータベースのデフォルト値を使用する場合には、正しい検証が行えない
 	 * ただし、検証対象のフィールド群に外部キーのフィールドを含む場合で、
 	 * かつ関連するテーブルのデータとともにsaveAll()でレコードを作成・更新する場合は、
 	 * $this->dataに外部キーのフィールドが自動的に追加されるため、外部キーのフィールドについては省略できる
