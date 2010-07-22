@@ -241,8 +241,10 @@ class QueueJob extends QueueAppModel {
 	/**
 	 * ジョブのログを記録
 	 *
-	 * @param string $status ステータス
-	 * @param string $message メッセージ
+	 * $messageが整数の場合で、かつ$idがnullの場合はCakePHPのObject::log()を呼び出す
+	 *
+	 * @param string $status ステータス、またはメッセージ
+	 * @param string|integer $message メッセージ、またはエラータイプ
 	 * @param integer $id ジョブID
 	 * @return boolean 処理の成否
 	 */
