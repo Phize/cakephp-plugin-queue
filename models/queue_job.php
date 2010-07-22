@@ -192,7 +192,7 @@ class QueueJob extends QueueAppModel {
 	/**
 	 * ジョブを追加
 	 *
-	 * @params integer $id キューID
+	 * @params integer $queueId キューID
 	 * @param string $name ジョブ名
 	 * @param string $type ジョブタイプ
 	 * @param array $options オプション
