@@ -37,7 +37,7 @@ class QueueLog extends QueueAppModel {
 		'job_id' => array(
 			'existsOnCreate' => array(
 				'rule' => array('primaryKeyExists', 'Queue.QueueJob'),
-				'required' => false,
+				'required' => true,
 				'allowEmpty' => false,
 				'on' => 'create'
 			),
