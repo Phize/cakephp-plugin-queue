@@ -98,7 +98,7 @@ class QueueLog extends QueueAppModel {
 	 * @param integer $jobId ジョブID
 	 * @param string $status ステータス
 	 * @param string $message メッセージ
-	 * @return boolean 記録の成否
+	 * @return boolean 処理の成否
 	 */
 	public function add($jobId, $status, $message) {
 		$this->log('[Queue plugin] Job ID = ' . $jobId . ', Status = ' . $status . ', Message = ' . $message);
