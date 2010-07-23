@@ -94,10 +94,10 @@ class QueueQueue extends QueueAppModel {
 	 *
 	 * @param string $name キュー名
 	 * @param array $options オプション
+	 * @param boolean $import カレントキューの更新
 	 * @return boolean 処理の成否
-	 * @todo カレントキューの更新機能を追加
 	 */
-	public function add($name, $options = array()) {
+	public function add($name, $options = array(), $import = false) {
 		$whitelist = array(
 			'name',
 			'polling_delay',
@@ -118,7 +118,14 @@ class QueueQueue extends QueueAppModel {
 		$data = Set::merge(array($this->alias => $options), $data);
 
 		$this->create(null);
-		return ($this->save($data, true, $whitelist) !== false);
+		if (!$this->save($data, true, $whitelist)) return false;
+
+		if ($import) {
+			$this->deselect();
+			$this->select((int) $this->getDataSource()->lastInsertId());
+		}
+
+		return true;
 	}
 
 	/**

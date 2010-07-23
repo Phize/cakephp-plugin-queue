@@ -68,6 +68,20 @@ class QueueQueueTestCase extends CakeTestCase {
 
 		$result = $this->QueueQueue->add('Queue 900', array('polling_delay' => 1, 'status' => 'running'));
 		$this->assertIdentical($result, true);
+
+		$result = $this->QueueQueue->add('Queue 901',
+				array(
+					'created' => '0000-00-00 00:00:00'
+				), true);
+		$this->assertIdentical($result, true);
+		$data = array(
+			$this->QueueQueue->primaryKey => $this->QueueQueue->getDataSource()->lastInsertId(),
+			'name' => 'Queue 901',
+			'polling_delay' => (string) $this->config['queue']['polling_delay'],
+			'created' => '0000-00-00 00:00:00',
+			'status' => $this->config['queue']['status']
+		);
+		$this->assertIdentical($this->QueueQueue->selected(), $data);
 	}
 
 	/**
