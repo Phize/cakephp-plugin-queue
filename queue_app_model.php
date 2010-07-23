@@ -11,7 +11,7 @@ class QueueAppModel extends AppModel {
 	 *
 	 * @var array
 	 */
-	public $actsAs = array('containable', 'validation');
+	public $actsAs = array('containable', 'validation', 'transaction');
 
 	/**
 	 * アソシエーションのレベル

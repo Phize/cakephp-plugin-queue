@@ -3,7 +3,7 @@ App::import('Model', 'Queue.QueueJob');
 
 class TestQueueJob extends QueueJob {
 	public $name = 'QueueJob';
-	public $alias = 'QueeuJob';
+	public $alias = 'QueueJob';
 
 	public function test_getId($id) {
 		return $this->_getId($id);
@@ -751,6 +751,34 @@ class QueueJobTestCase extends CakeTestCase {
 
 		$this->QueueJob->begin(2);
 		$result = $this->QueueJob->failed(2);
+		$this->assertIdentical($result, true);
+	}
+
+	/**
+	 * fixAll()のテスト
+	 */
+	public function testFixAll() {
+		$result = $this->QueueJob->fixAll(900);
+		$this->assertIdentical($result, true);
+
+		$result = $this->QueueJob->fixAll(1);
+		$this->assertIdentical($result, true);
+
+		$result = $this->QueueJob->fixAll();
+		$this->assertIdentical($result, true);
+	}
+
+	/**
+	 * cleanAll()のテスト
+	 */
+	public function testClean() {
+		$result = $this->QueueJob->cleanAll(900);
+		$this->assertIdentical($result, true);
+
+		$result = $this->QueueJob->cleanAll(1);
+		$this->assertIdentical($result, true);
+
+		$result = $this->QueueJob->cleanAll();
 		$this->assertIdentical($result, true);
 	}
 }

@@ -3,6 +3,7 @@
 以下のライブラリに依存する。
 
 	・Validationビヘイビア
+	・Transactionビヘイビア
 
 
 

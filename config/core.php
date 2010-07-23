@@ -9,6 +9,10 @@ Configure::write('Queue.queue.polling_delay', 1);
 // キューのステータス
 Configure::write('Queue.queue.status', 'stopped');
 
+// ジョブの設定
+// ジョブの最大実行時間(秒)
+Configure::write('Queue.job.time_limit', 3600);
+
 // ジョブのデフォルト設定
 // ジョブの優先度(99が最優先)
 Configure::write('Queue.job.priority', 50);

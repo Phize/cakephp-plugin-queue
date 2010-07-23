@@ -153,7 +153,21 @@ class QueueJobFixture extends CakeTestFixture {
 				'max_tries' => 5,
 				'scheduled' => date('Y-m-d H:i:s'),
 				'status' => 'idle'
-			)
+			),
+			array(
+				'id' => 10,
+				'queue_id' => 2,
+				'name' => 'Job 9',
+				'type' => 'job 1',
+				'priority' => 50,
+				'recursive' => 0,
+				'interval' => 86400,
+				'retry_delay' => 60,
+				'tries' => 1,
+				'max_tries' => 5,
+				'scheduled' => date('Y-m-d H:i:s'),
+				'status' => 'running'
+			),
 		);
 
 		parent::__construct();

@@ -729,4 +729,70 @@ class QueueJob extends QueueAppModel {
 
 		return $this->update($data, $isCurrent);
 	}
+
+	/**
+	 * 最大実行時間を超えたジョブを修復
+	 *
+	 * @param integer $queueId キューID
+	 * @return boolean 処理の成否
+	 */
+	public function fixAll($queueId = null) {
+		$this->beginTransaction();
+
+		$fields = array(
+			$this->alias . '.tries' => '`' . $this->alias . '`.`tries` - 1'
+		);
+		$conditions = array(
+			$this->alias . '.status' => 'running',
+			$this->alias . '.tried >=' => $this->config['job']['time_limit'],
+			$this->alias . '.tries > ' => 0
+		);
+		if ($queueId !== null) $conditions[$this->belongsTo['QueueQueue']['foreignKey']] = $queueId;
+
+		if (!$this->updateAll($fields, $conditions)) {
+			$this->rollbackTransaction();
+			return false;
+		}
+
+		$fields = array(
+			$this->alias . '.status' => '\'idle\'',
+		);
+		$conditions = array(
+			$this->alias . '.status' => 'running',
+			$this->alias . '.tried >=' => $this->config['job']['time_limit']
+		);
+		if ($queueId !== null) $conditions[$this->belongsTo['QueueQueue']['foreignKey']] = $queueId;
+
+		if (!$this->updateAll($fields, $conditions)) {
+			$this->rollbackTransaction();
+			return false;
+		}
+
+		$this->commitTransaction();
+
+		return true;
+	}
+
+	/**
+	 * 実行が完了したジョブを削除
+	 *
+	 * @param integer $queueId キューID
+	 * @return boolean 処理の成否
+	 */
+	public function cleanAll($queueId = null) {
+		$conditions = array(
+			'or' => array(
+				array(
+					$this->alias . '.status' => 'success'
+				),
+				array(
+					$this->alias . '.status' => 'error'
+				)
+			)
+		);
+
+		if ($queueId !== null) $conditions[$this->belongsTo['QueueQueue']['foreignKey']] = $queueId;
+
+		return ($this->deleteAll($conditions) !== false);
+	}
 }
