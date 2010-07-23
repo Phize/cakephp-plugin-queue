@@ -270,7 +270,7 @@ class QueueQueue extends QueueAppModel {
 	 * @return array キューの読み込みに成功した場合はデータ、失敗した場合はfalse
 	 */
 	public function select($id) {
-		if (!is_int($id) || !($queue = $this->_select($id))) return false;
+		if (!is_numeric($id) || !($queue = $this->_select($id))) return false;
 
 		$this->import($queue);
 		return $queue;
