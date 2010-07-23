@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- ホスト: localhost
--- 生成時間: 2010 年 7 月 22 日 05:01
+-- 生成時間: 2010 年 7 月 23 日 23:57
 -- サーバのバージョン: 5.0.91
 -- PHP のバージョン: 5.2.13
 
@@ -41,11 +41,6 @@ CREATE TABLE IF NOT EXISTS `queue_jobs` (
   KEY `queue_id` (`queue_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
---
--- テーブルのデータをダンプしています `queue_jobs`
---
-
-
 -- --------------------------------------------------------
 
 --
@@ -61,11 +56,6 @@ CREATE TABLE IF NOT EXISTS `queue_logs` (
   PRIMARY KEY  (`id`),
   KEY `job_id` (`job_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
---
--- テーブルのデータをダンプしています `queue_logs`
---
-
 
 -- --------------------------------------------------------
 
@@ -84,11 +74,6 @@ CREATE TABLE IF NOT EXISTS `queue_queues` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
--- テーブルのデータをダンプしています `queue_queues`
---
-
-
---
 -- ダンプしたテーブルの制約
 --
 
@@ -97,9 +82,3 @@ CREATE TABLE IF NOT EXISTS `queue_queues` (
 --
 ALTER TABLE `queue_jobs`
   ADD CONSTRAINT `queue_id` FOREIGN KEY (`queue_id`) REFERENCES `queue_queues` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- テーブルの制約 `queue_logs`
---
-ALTER TABLE `queue_logs`
-  ADD CONSTRAINT `job_id` FOREIGN KEY (`job_id`) REFERENCES `queue_jobs` (`id`) ON DELETE NO ACTION ON UPDATE CASCADE;

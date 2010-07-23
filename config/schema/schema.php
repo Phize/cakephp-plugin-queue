@@ -1,8 +1,8 @@
 <?php
 /* SVN FILE: $Id$ */
-/* CakephpExtensions schema generated on: 2010-07-22 04:07:19 : 1279742299*/
-class QueuePluginSchema extends CakeSchema {
-	var $name = 'QueuePlugin';
+/* CakephpExtensions schema generated on: 2010-07-23 23:07:23 : 1279897103*/
+class CakephpExtensionsSchema extends CakeSchema {
+	var $name = 'CakephpExtensions';
 
 	function before($event = array()) {
 		return true;
