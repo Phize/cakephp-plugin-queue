@@ -208,10 +208,10 @@ class QueueJob extends QueueAppModel {
 	 * @param string $name ジョブ名
 	 * @param string $type ジョブタイプ
 	 * @param array $options オプション
+	 * @param boolean $import カレントジョブの更新
 	 * @return boolean 処理の成否
-	 * @todo カレントジョブの更新機能を追加
 	 */
-	public function add($queueId, $name, $type, $options = array()) {
+	public function add($queueId, $name, $type, $options = array(), $import = false) {
 		$whitelist = array(
 			$this->belongsTo['QueueQueue']['foreignKey'],
 			'name',
@@ -247,7 +247,14 @@ class QueueJob extends QueueAppModel {
 		$data = Set::merge(array($this->alias => $options), $data);
 
 		$this->create(null);
-		return ($this->save($data, true, $whitelist) !== false);
+		if (!$this->save($data, true, $whitelist)) return false;
+
+		if ($import) {
+			$this->deselect();
+			$this->select((int) $this->getDataSource()->lastInsertId());
+		}
+
+		return true;
 	}
 
 	/**
@@ -398,7 +405,7 @@ class QueueJob extends QueueAppModel {
 	 * @return array ジョブの選択に成功した場合はデータ、失敗した場合はfalse
 	 */
 	public function select($id) {
-		if (!is_int($id) || !($job = $this->_select($id))) return false;
+		if (!is_numeric($id) || !($job = $this->_select($id))) return false;
 
 		$this->import($job);
 		return $job;

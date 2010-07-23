@@ -64,6 +64,33 @@ class QueueJobTestCase extends CakeTestCase {
 
 		$result = $this->QueueJob->add(1, 'Job 900', 'job');
 		$this->assertIdentical($result, true);
+		$this->assertIdentical($this->QueueJob->selected(), array());
+
+		$result = $this->QueueJob->add(1, 'Job 901', 'job',
+				array(
+					'scheduled' => '0000-00-00 00:00:00',
+					'created' => '0000-00-00 00:00:00'
+				), true);
+		$this->assertIdentical($result, true);
+		$data = array(
+			$this->QueueJob->primaryKey => $this->QueueJob->getDataSource()->lastInsertId(),
+			$this->QueueJob->belongsTo['QueueQueue']['foreignKey'] => '1',
+			'name' => 'Job 901',
+			'type' => 'job',
+			'priority' => (string) $this->config['job']['priority'],
+			'recursive' => (string) $this->config['job']['recursive'],
+			'interval' => (string) $this->config['job']['interval'],
+			'retry_delay' => (string) $this->config['job']['retry_delay'],
+			'tries' => '0',
+			'max_tries' => (string) $this->config['job']['max_tries'],
+			'parameters' => '',
+			'created' => '0000-00-00 00:00:00',
+			'scheduled' => '0000-00-00 00:00:00',
+			'tried' => '0000-00-00 00:00:00',
+			'completed' => '0000-00-00 00:00:00',
+			'status' => $this->config['job']['status']
+		);
+		$this->assertIdentical($this->QueueJob->selected(), $data);
 	}
 
 	/**
