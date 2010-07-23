@@ -495,4 +495,32 @@ class QueueQueueTestCase extends CakeTestCase {
 		$result = $this->QueueQueue->dequeue(array('job 1', 'job 2'));
 		$this->assertIdentical($result, false);
 	}
+
+	/**
+	 * fix()のテスト
+	 */
+	public function testFix() {
+		$result = $this->QueueQueue->fix(900);
+		$this->assertIdentical($result, true);
+
+		$result = $this->QueueQueue->fix(1);
+		$this->assertIdentical($result, true);
+
+		$result = $this->QueueQueue->fix();
+		$this->assertIdentical($result, true);
+	}
+
+	/**
+	 * clean()のテスト
+	 */
+	public function testClean() {
+		$result = $this->QueueQueue->clean(900);
+		$this->assertIdentical($result, true);
+
+		$result = $this->QueueQueue->clean(1);
+		$this->assertIdentical($result, true);
+
+		$result = $this->QueueQueue->clean();
+		$this->assertIdentical($result, true);
+	}
 }

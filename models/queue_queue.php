@@ -427,4 +427,28 @@ class QueueQueue extends QueueAppModel {
 
 		return $this->QueueJob->next($id, $types);
 	}
+
+	/**
+	 * 最大実行時間を超えたジョブを修復
+	 *
+	 * @param integer $id キューID
+	 * @return boolean 処理の成否
+	 */
+	public function fix($id = null) {
+		if (($id = $this->_getId($id)) === false) return false;
+
+		return $this->QueueJob->fixAll($id);
+	}
+
+	/**
+	 * 実行が完了したジョブを削除
+	 *
+	 * @param integer $id キューID
+	 * @return boolean 処理の成否
+	 */
+	public function clean($id = null) {
+		if (($id = $this->_getId($id)) === false) return false;
+
+		return $this->QueueJob->cleanAll($id);
+	}
 }
