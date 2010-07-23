@@ -771,7 +771,7 @@ class QueueJobTestCase extends CakeTestCase {
 	/**
 	 * cleanAll()のテスト
 	 */
-	public function testClean() {
+	public function testCleanAll() {
 		$result = $this->QueueJob->cleanAll(900);
 		$this->assertIdentical($result, true);
 
