@@ -368,12 +368,11 @@ class QueueJob extends QueueAppModel {
 			$options = array(
 				'conditions' => array(
 					$this->alias . '.' . $this->primaryKey => $id
-				),
-				'recursive' => -1
+				)
 			);
 
 			$data = $this->find('first', $options);
-			if (!empty($data)) $job = $data[$this->alias];
+			if (!empty($data)) $job = $data;
 		}
 
 		return $job;
@@ -453,8 +452,7 @@ class QueueJob extends QueueAppModel {
 				$this->alias . '.priority' => 'desc',
 				$this->alias . '.scheduled' => 'asc',
 				$this->alias . '.' . $this->primaryKey => 'asc'
-			),
-			'recursive' => -1
+			)
 		);
 
 		// ジョブタイプの検索条件を生成
@@ -486,12 +484,13 @@ class QueueJob extends QueueAppModel {
 	public function isType($type, $id = null) {
 		if (is_array($id)) {
 			$job = $id;
-			if (isset($job[$this->alias])) $job = $job[$this->alias];
-			if (!isset($job['type'])) return false;
 		}
 		else {
 			if (!($job = $this->_select($id))) return false;
 		}
+
+		$job = isset($job[$this->alias]) ? $job[$this->alias] : $job;
+		if (!isset($job['type'])) return false;
 
 		return $job['type'] === $type;
 	}
@@ -506,12 +505,13 @@ class QueueJob extends QueueAppModel {
 	protected function isStatus($status, $id = null) {
 		if (is_array($id)) {
 			$job = $id;
-			if (isset($job[$this->alias])) $job = $job[$this->alias];
-			if (!isset($job['status'])) return false;
 		}
 		else {
 			if (!($job = $this->_select($id))) return false;
 		}
+
+		$job = isset($job[$this->alias]) ? $job[$this->alias] : $job;
+		if (!isset($job['status'])) return false;
 
 		return $job['status'] === $status;
 	}
@@ -575,12 +575,13 @@ class QueueJob extends QueueAppModel {
 	public function isRunnable($id = null) {
 		if (is_array($id)) {
 			$job = $id;
-			if (isset($job[$this->alias])) $job = $job[$this->alias];
-			if (!isset($job['tries']) || !isset($job['max_tries']) || !isset($job['status'])) return false;
 		}
 		else {
 			if (!($job = $this->_select($id))) return false;
 		}
+
+		$job = isset($job[$this->alias]) ? $job[$this->alias] : $job;
+		if (!isset($job['tries']) || !isset($job['max_tries']) || !isset($job['status'])) return false;
 
 		return $job['tries'] < $job['max_tries'] && $job['status'] === 'idle';
 	}
@@ -667,6 +668,7 @@ class QueueJob extends QueueAppModel {
 
 		if (!($job = $this->_select($id))) return false;
 		if (!$this->isRunnable($job)) return false;
+		$job = isset($job[$this->alias]) ? $job[$this->alias] : $job;
 
 		$data = array(
 			$this->alias => array(
@@ -691,6 +693,7 @@ class QueueJob extends QueueAppModel {
 
 		if (!($job = $this->_select($id))) return false;
 		if (!$this->isRunning($job)) return false;
+		$job = isset($job[$this->alias]) ? $job[$this->alias] : $job;
 
 		$data = array();
 		if ($job['recursive']) {
@@ -729,6 +732,7 @@ class QueueJob extends QueueAppModel {
 
 		if (!($job = $this->_select($id))) return false;
 		if (!$this->isRunning($job)) return false;
+		$job = isset($job[$this->alias]) ? $job[$this->alias] : $job;
 
 		$data = array();
 		if ($job['tries'] + 1 >= $job['max_tries']) {

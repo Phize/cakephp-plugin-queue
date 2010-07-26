@@ -165,6 +165,7 @@ class QueueJobTestCase extends CakeTestCase {
 		$this->assertIdentical($this->QueueJob->select(1), $current);
 
 		$current = $this->QueueJob->select(1);
+		$current = $current[$this->QueueJob->alias];
 		$this->QueueJob->deselect();
 		$data = array_merge($current, array(
 			$this->QueueJob->primaryKey => '1',
@@ -182,9 +183,10 @@ class QueueJobTestCase extends CakeTestCase {
 		$result = $this->QueueJob->update();
 		$this->assertIdentical($result, true);
 		$this->assertIdentical($this->QueueJob->selected(), $data);
-		$this->assertIdentical($this->QueueJob->select(1), $data);
+		$this->assertIdentical($this->QueueJob->select(1), array($this->QueueJob->alias =>$data));
 
 		$current = $this->QueueJob->select(1);
+		$current = $current[$this->QueueJob->alias];
 		$this->QueueJob->deselect();
 		$data = array_merge($current, array(
 			$this->QueueJob->primaryKey => '1',
@@ -201,9 +203,10 @@ class QueueJobTestCase extends CakeTestCase {
 		$result = $this->QueueJob->update($data, false);
 		$this->assertIdentical($result, true);
 		$this->assertIdentical($this->QueueJob->selected(), array());
-		$this->assertIdentical($this->QueueJob->select(1), $data);
+		$this->assertIdentical($this->QueueJob->select(1), array($this->QueueJob->alias =>$data));
 
 		$current = $this->QueueJob->select(1);
+		$current = $current[$this->QueueJob->alias];
 		$this->QueueJob->deselect();
 		$data = array_merge($current, array(
 			$this->QueueJob->primaryKey => '1',
@@ -220,7 +223,7 @@ class QueueJobTestCase extends CakeTestCase {
 		$result = $this->QueueJob->update($data, true);
 		$this->assertIdentical($result, true);
 		$this->assertIdentical($this->QueueJob->selected(), $data);
-		$this->assertIdentical($this->QueueJob->select(1), $data);
+		$this->assertIdentical($this->QueueJob->select(1), array($this->QueueJob->alias =>$data));
 	}
 
 	/**

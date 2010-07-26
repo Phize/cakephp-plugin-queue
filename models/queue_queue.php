@@ -215,7 +215,7 @@ class QueueQueue extends QueueAppModel {
 			);
 
 			$data = $this->find('first', $options);
-			if (!empty($data)) $queue = $data[$this->alias];
+			if (!empty($data)) $queue = $data;
 		}
 
 		return $queue;
@@ -246,7 +246,7 @@ class QueueQueue extends QueueAppModel {
 			);
 
 			$data = $this->find('first', $options);
-			if (!empty($data)) $queue = $data[$this->alias];
+			if (!empty($data)) $queue = $data;
 		}
 
 		return $queue;
@@ -328,12 +328,13 @@ class QueueQueue extends QueueAppModel {
 	protected function isStatus($status, $id = null) {
 		if (is_array($id)) {
 			$queue = $id;
-			if (isset($queue[$this->alias])) $queue = $queue[$this->alias];
-			if (!isset($queue['status'])) return false;
 		}
 		else {
 			if (!($queue = $this->_select($id))) return false;
 		}
+
+		$queue = isset($queue[$this->alias]) ? $queue[$this->alias] : $queue;
+		if (!isset($queue['status'])) return false;
 
 		return $queue['status'] === $status;
 	}

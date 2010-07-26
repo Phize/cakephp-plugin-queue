@@ -120,6 +120,7 @@ class QueueQueueTestCase extends CakeTestCase {
 		$this->assertIdentical($this->QueueQueue->select(1), $current);
 
 		$current = $this->QueueQueue->select(1);
+		$current = $current[$this->QueueQueue->alias];
 		$this->QueueQueue->deselect();
 		$data = array_merge($current, array(
 			$this->QueueQueue->primaryKey => '1',
@@ -131,9 +132,10 @@ class QueueQueueTestCase extends CakeTestCase {
 		$result = $this->QueueQueue->update();
 		$this->assertIdentical($result, true);
 		$this->assertIdentical($this->QueueQueue->selected(), $data);
-		$this->assertIdentical($this->QueueQueue->select(1), $data);
+		$this->assertIdentical($this->QueueQueue->select(1), array($this->QueueQueue->alias => $data));
 
 		$current = $this->QueueQueue->select(1);
+		$current = $current[$this->QueueQueue->alias];
 		$this->QueueQueue->deselect();
 		$data = array_merge($current, array(
 			$this->QueueQueue->primaryKey => '1',
@@ -144,9 +146,10 @@ class QueueQueueTestCase extends CakeTestCase {
 		$result = $this->QueueQueue->update($data, false);
 		$this->assertIdentical($result, true);
 		$this->assertIdentical($this->QueueQueue->selected(), array());
-		$this->assertIdentical($this->QueueQueue->select(1), $data);
+		$this->assertIdentical($this->QueueQueue->select(1), array($this->QueueQueue->alias => $data));
 
 		$current = $this->QueueQueue->select(1);
+		$current = $current[$this->QueueQueue->alias];
 		$this->QueueQueue->deselect();
 		$data = array_merge($current, array(
 			$this->QueueQueue->primaryKey => '1',
@@ -157,7 +160,7 @@ class QueueQueueTestCase extends CakeTestCase {
 		$result = $this->QueueQueue->update($data, true);
 		$this->assertIdentical($result, true);
 		$this->assertIdentical($this->QueueQueue->selected(), $data);
-		$this->assertIdentical($this->QueueQueue->select(1), $data);
+		$this->assertIdentical($this->QueueQueue->select(1), array($this->QueueQueue->alias => $data));
 	}
 
 	/**
@@ -500,12 +503,16 @@ class QueueQueueTestCase extends CakeTestCase {
 	 * fix()のテスト
 	 */
 	public function testFix() {
+		$result = $this->QueueQueue->fix();
+		$this->assertIdentical($result, false);
+
 		$result = $this->QueueQueue->fix(900);
 		$this->assertIdentical($result, true);
 
 		$result = $this->QueueQueue->fix(1);
 		$this->assertIdentical($result, true);
 
+		$this->QueueQueue->select(1);
 		$result = $this->QueueQueue->fix();
 		$this->assertIdentical($result, true);
 	}
@@ -514,12 +521,16 @@ class QueueQueueTestCase extends CakeTestCase {
 	 * clean()のテスト
 	 */
 	public function testClean() {
+		$result = $this->QueueQueue->clean();
+		$this->assertIdentical($result, false);
+
 		$result = $this->QueueQueue->clean(900);
 		$this->assertIdentical($result, true);
 
 		$result = $this->QueueQueue->clean(1);
 		$this->assertIdentical($result, true);
 
+		$this->QueueQueue->select(1);
 		$result = $this->QueueQueue->clean();
 		$this->assertIdentical($result, true);
 	}
