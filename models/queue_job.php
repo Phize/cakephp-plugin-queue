@@ -475,6 +475,26 @@ class QueueJob extends QueueAppModel {
 	}
 
 	/**
+	 * ジョブのタイプが指定したタイプと等しいか検証
+	 *
+	 * @param string $type タイプ
+	 * @param integer|array $id ジョブID、またはジョブのデータ
+	 * @return boolean 検証の成否
+	 */
+	public function isType($type, $id = null) {
+		if (is_array($id)) {
+			$job = $id;
+			if (isset($job[$this->alias])) $job = $job[$this->alias];
+			if (!isset($job['type'])) return false;
+		}
+		else {
+			if (!($job = $this->_select($id))) return false;
+		}
+
+		return $job['type'] === $type;
+	}
+
+	/**
 	 * ジョブのステータスが指定したステータスと等しいか検証
 	 *
 	 * @param string $status ステータス

@@ -378,6 +378,35 @@ class QueueJobTestCase extends CakeTestCase {
 	}
 
 	/**
+	 * isType()のテスト
+	 */
+	public function testIsType() {
+		$result = $this->QueueJob->isType('job 900');
+		$this->assertIdentical($result, false);
+
+		$result = $this->QueueJob->isType('job 900', 3);
+		$this->assertIdentical($result, false);
+
+		$result = $this->QueueJob->isType('job 900', array());
+		$this->assertIdentical($result, false);
+
+		$this->QueueJob->select(1);
+		$result = $this->QueueJob->isType('job 1');
+		$this->assertIdentical($result, true);
+
+		$result = $this->QueueJob->isType('job 1', 1);
+		$this->assertIdentical($result, true);
+
+		$job = $this->QueueJob->select(1);
+		$result = $this->QueueJob->isType('job 1', $job);
+		$this->assertIdentical($result, true);
+
+		$job = $this->QueueJob->findById(1);
+		$result = $this->QueueJob->isType('job 1', $job);
+		$this->assertIdentical($result, true);
+	}
+
+	/**
 	 * isStatus()のテスト
 	 */
 	public function testIsStatus() {
