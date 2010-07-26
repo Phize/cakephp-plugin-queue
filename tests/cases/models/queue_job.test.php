@@ -73,7 +73,7 @@ class QueueJobTestCase extends CakeTestCase {
 				), true);
 		$this->assertIdentical($result, true);
 		$data = array(
-			$this->QueueJob->primaryKey => $this->QueueJob->getDataSource()->lastInsertId(),
+			$this->QueueJob->primaryKey => $this->QueueJob->getID(),
 			$this->QueueJob->belongsTo['QueueQueue']['foreignKey'] => '1',
 			'name' => 'Job 901',
 			'type' => 'job',

@@ -251,7 +251,7 @@ class QueueJob extends QueueAppModel {
 
 		if ($import) {
 			$this->deselect();
-			$this->select((int) $this->getDataSource()->lastInsertId());
+			$this->select((int) $this->getID());
 		}
 
 		return true;
