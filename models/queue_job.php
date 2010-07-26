@@ -475,9 +475,9 @@ class QueueJob extends QueueAppModel {
 	}
 
 	/**
-	 * ジョブのタイプが指定したタイプと等しいか検証
+	 * ジョブのジョブタイプが指定したジョブタイプと等しいか検証
 	 *
-	 * @param string $type タイプ
+	 * @param string $type ジョブタイプ
 	 * @param integer|array $id ジョブID、またはジョブのデータ
 	 * @return boolean 検証の成否
 	 */
