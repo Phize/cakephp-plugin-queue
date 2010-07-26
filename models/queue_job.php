@@ -368,7 +368,8 @@ class QueueJob extends QueueAppModel {
 			$options = array(
 				'conditions' => array(
 					$this->alias . '.' . $this->primaryKey => $id
-				)
+				),
+				'recursive' => -1
 			);
 
 			$data = $this->find('first', $options);
@@ -452,7 +453,8 @@ class QueueJob extends QueueAppModel {
 				$this->alias . '.priority' => 'desc',
 				$this->alias . '.scheduled' => 'asc',
 				$this->alias . '.' . $this->primaryKey => 'asc'
-			)
+			),
+			'recursive' => -1
 		);
 
 		// ジョブタイプの検索条件を生成
