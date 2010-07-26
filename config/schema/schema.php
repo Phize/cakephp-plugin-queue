@@ -1,8 +1,8 @@
 <?php
 /* SVN FILE: $Id$ */
-/* CakephpExtensions schema generated on: 2010-07-23 23:07:23 : 1279897103*/
-class CakephpExtensionsSchema extends CakeSchema {
-	var $name = 'CakephpExtensions';
+/* Queue plugin schema generated on: 2010-07-27 01:07:00 : 1280160420*/
+class QueuePluginSchema extends CakeSchema {
+	var $name = 'QueuePlugin';
 
 	function before($event = array()) {
 		return true;
@@ -27,6 +27,7 @@ class CakephpExtensionsSchema extends CakeSchema {
 		'scheduled' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
 		'tried' => array('type' => 'datetime', 'null' => false, 'default' => '0000-00-00 00:00:00'),
 		'completed' => array('type' => 'datetime', 'null' => false, 'default' => '0000-00-00 00:00:00'),
+		'polling_delay' => array('type' => 'integer', 'null' => false, 'default' => '1', 'length' => 10),
 		'status' => array('type' => 'string', 'null' => false, 'default' => 'idle'),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'queue_id_name' => array('column' => array('queue_id', 'name'), 'unique' => 1), 'queue_id' => array('column' => 'queue_id', 'unique' => 0)),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')

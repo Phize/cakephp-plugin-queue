@@ -88,6 +88,7 @@ class QueueJobTestCase extends CakeTestCase {
 			'scheduled' => '0000-00-00 00:00:00',
 			'tried' => '0000-00-00 00:00:00',
 			'completed' => '0000-00-00 00:00:00',
+			'polling_delay' => '1',
 			'status' => $this->config['job']['status']
 		);
 		$this->assertIdentical($this->QueueJob->selected(), $data);
@@ -139,6 +140,7 @@ class QueueJobTestCase extends CakeTestCase {
 			'interval' => '60',
 			'retry_delay' => '10',
 			'scheduled' => date('Y-m-d H:i:s'),
+			'polling_delay' => '1',
 			'status' => 'running'
 		);
 		$result = $this->QueueJob->update($data, false);
@@ -157,6 +159,7 @@ class QueueJobTestCase extends CakeTestCase {
 			'interval' => '60',
 			'retry_delay' => '10',
 			'scheduled' => date('Y-m-d H:i:s'),
+			'polling_delay' => '1',
 			'status' => 'running'
 		);
 		$result = $this->QueueJob->update($data, true);
@@ -177,6 +180,7 @@ class QueueJobTestCase extends CakeTestCase {
 			'interval' => '60',
 			'retry_delay' => '10',
 			'scheduled' => date('Y-m-d H:i:s'),
+			'polling_delay' => '1',
 			'status' => 'running'
 		));
 		$this->QueueJob->import($data);
@@ -198,6 +202,7 @@ class QueueJobTestCase extends CakeTestCase {
 			'interval' => '60',
 			'retry_delay' => '10',
 			'scheduled' => date('Y-m-d H:i:s'),
+			'polling_delay' => '1',
 			'status' => 'running'
 		));
 		$result = $this->QueueJob->update($data, false);
@@ -218,6 +223,7 @@ class QueueJobTestCase extends CakeTestCase {
 			'interval' => '60',
 			'retry_delay' => '10',
 			'scheduled' => date('Y-m-d H:i:s'),
+			'polling_delay' => '1',
 			'status' => 'running'
 		));
 		$result = $this->QueueJob->update($data, true);
@@ -272,6 +278,7 @@ class QueueJobTestCase extends CakeTestCase {
 				'interval' => 86400,
 				'retry_delay' => 60,
 				'scheduled' => date('Y-m-d H:i:s'),
+				'polling_delay' => 1,
 				'status' => 'idle'
 		);
 		$this->QueueJob->import($data);
@@ -287,6 +294,7 @@ class QueueJobTestCase extends CakeTestCase {
 				'interval' => 86400,
 				'retry_delay' => 60,
 				'scheduled' => date('Y-m-d H:i:s'),
+				'polling_delay' => 1,
 				'status' => 'stopped'
 		);
 		$this->QueueJob->import('status', 'stopped');

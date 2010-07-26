@@ -185,6 +185,11 @@ class QueueJob extends QueueAppModel {
 			'required' => false,
 			'allowEmpty' => false
 		),
+		'polling_delay' => array(
+			'rule' => array('custom', '/^\d+$/'),
+			'required' => false,
+			'allowEmpty' => false
+		),
 		'status' => array(
 			'rule' => array('inList', array('idle', 'stopped', 'running', 'success', 'error')),
 			'required' => false,
@@ -223,6 +228,7 @@ class QueueJob extends QueueAppModel {
 			'max_tries',
 			'parameters',
 			'scheduled',
+			'polling_delay',
 			'status'
 		);
 
@@ -233,6 +239,7 @@ class QueueJob extends QueueAppModel {
 			'retry_delay' => $this->config['job']['retry_delay'],
 			'max_tries' => $this->config['job']['max_tries'],
 			'scheduled' => date('Y-m-d H:i:s'),
+			'polling_delay' => $this->config['job']['polling_delay'],
 			'status' => $this->config['job']['status']
 		);
 		$options = array_merge($defaults, $options);
@@ -302,6 +309,7 @@ class QueueJob extends QueueAppModel {
 			'max_tries',
 			'parameters',
 			'scheduled',
+			'polling_delay',
 			'status'
 		);
 

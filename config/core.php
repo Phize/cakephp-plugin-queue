@@ -24,5 +24,7 @@ Configure::write('Queue.job.interval', 86400);
 Configure::write('Queue.job.retry_delay', 60);
 // ジョブの最大実行回数(エラー時)
 Configure::write('Queue.job.max_tries', 5);
+// 次のジョブを実行するまでの待ち時間
+Configure::write('Queue.job.polling_delay', 1);
 // ジョブのステータス
 Configure::write('Queue.job.status', 'idle');

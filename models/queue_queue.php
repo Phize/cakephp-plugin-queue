@@ -4,8 +4,7 @@
  *
  * キューの取得、ジョブデータの更新等を行う
  *
- * @todo 不正終了したジョブのクリーン処理
- * @todo 完了済みジョブの削除
+ * @todo (ジョブ、またはキューの)polling_delayでsleep()するメソッドを追加
  */
 class QueueQueue extends QueueAppModel {
 	/**

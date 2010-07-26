@@ -18,6 +18,7 @@ class QueueJobFixture extends CakeTestFixture {
 		'scheduled' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
 		'tried' => array('type' => 'datetime', 'null' => false, 'default' => '0000-00-00 00:00:00'),
 		'completed' => array('type' => 'datetime', 'null' => false, 'default' => '0000-00-00 00:00:00'),
+		'polling_delay' => array('type' => 'integer', 'null' => false, 'default' => '1', 'length' => 10),
 		'status' => array('type' => 'string', 'null' => false, 'default' => 'idle'),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'queue_id_name' => array('column' => array('queue_id', 'name'), 'unique' => 1), 'queue_id' => array('column' => 'queue_id', 'unique' => 0)),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
@@ -40,6 +41,7 @@ class QueueJobFixture extends CakeTestFixture {
 				'tries' => 0,
 				'max_tries' => 5,
 				'scheduled' => date('Y-m-d H:i:s'),
+				'polling_delay' => 1,
 				'status' => 'idle'
 			),
 			array(
@@ -54,6 +56,7 @@ class QueueJobFixture extends CakeTestFixture {
 				'tries' => 4,
 				'max_tries' => 5,
 				'scheduled' => date('Y-m-d H:i:s'),
+				'polling_delay' => 1,
 				'status' => 'idle'
 			),
 			array(
@@ -68,6 +71,7 @@ class QueueJobFixture extends CakeTestFixture {
 				'tries' => 0,
 				'max_tries' => 5,
 				'scheduled' => date('Y-m-d H:i:s'),
+				'polling_delay' => 1,
 				'status' => 'stopped'
 			),
 			array(
@@ -82,6 +86,7 @@ class QueueJobFixture extends CakeTestFixture {
 				'tries' => 0,
 				'max_tries' => 5,
 				'scheduled' => date('Y-m-d H:i:s'),
+				'polling_delay' => 1,
 				'status' => 'running'
 			),
 			array(
@@ -96,6 +101,7 @@ class QueueJobFixture extends CakeTestFixture {
 				'tries' => 0,
 				'max_tries' => 5,
 				'scheduled' => date('Y-m-d H:i:s'),
+				'polling_delay' => 1,
 				'status' => 'success'
 			),
 			array(
@@ -110,6 +116,7 @@ class QueueJobFixture extends CakeTestFixture {
 				'tries' => 0,
 				'max_tries' => 5,
 				'scheduled' => date('Y-m-d H:i:s'),
+				'polling_delay' => 1,
 				'status' => 'error'
 			),
 			array(
@@ -124,6 +131,7 @@ class QueueJobFixture extends CakeTestFixture {
 				'tries' => 5,
 				'max_tries' => 5,
 				'scheduled' => date('Y-m-d H:i:s'),
+				'polling_delay' => 1,
 				'status' => 'error'
 			),
 			array(
@@ -138,6 +146,7 @@ class QueueJobFixture extends CakeTestFixture {
 				'tries' => 0,
 				'max_tries' => 5,
 				'scheduled' => date('Y-m-d H:i:s'),
+				'polling_delay' => 1,
 				'status' => 'idle'
 			),
 			array(
@@ -152,6 +161,7 @@ class QueueJobFixture extends CakeTestFixture {
 				'tries' => 0,
 				'max_tries' => 5,
 				'scheduled' => date('Y-m-d H:i:s'),
+				'polling_delay' => 1,
 				'status' => 'idle'
 			),
 			array(
@@ -166,6 +176,7 @@ class QueueJobFixture extends CakeTestFixture {
 				'tries' => 1,
 				'max_tries' => 5,
 				'scheduled' => date('Y-m-d H:i:s'),
+				'polling_delay' => 1,
 				'status' => 'running'
 			),
 		);

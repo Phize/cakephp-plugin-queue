@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- ホスト: localhost
--- 生成時間: 2010 年 7 月 23 日 23:57
+-- 生成時間: 2010 年 7 月 27 日 01:06
 -- サーバのバージョン: 5.0.91
 -- PHP のバージョン: 5.2.13
 
@@ -35,6 +35,7 @@ CREATE TABLE IF NOT EXISTS `queue_jobs` (
   `scheduled` datetime NOT NULL COMMENT '次回の実行日時',
   `tried` datetime NOT NULL default '0000-00-00 00:00:00' COMMENT '実行開始日時',
   `completed` datetime NOT NULL default '0000-00-00 00:00:00' COMMENT '実行成功日時',
+  `polling_delay` int(10) unsigned NOT NULL default '1' COMMENT '次のジョブを実行するまでの待ち時間',
   `status` varchar(255) NOT NULL default 'idle' COMMENT 'ステータス (idle = 実行待ち中, stopped = 停止中, running = 実行中, success = 成功, error = エラー)',
   PRIMARY KEY  (`id`),
   UNIQUE KEY `queue_id_name` (`queue_id`,`name`),
