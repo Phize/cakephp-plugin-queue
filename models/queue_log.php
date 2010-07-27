@@ -3,6 +3,15 @@
  * ログクラス
  *
  * ログの記録等を行う
+ *
+ * Licensed under The MIT License
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @category	Plugin
+ * @package		QueuePlugin
+ * @author		Phize
+ * @copyright	2010 Phize (http://phize.net/)
+ * @license		MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 class QueueLog extends QueueAppModel {
 	/**

@@ -3,6 +3,17 @@
  * ジョブクラス
  *
  * ジョブの取得、ジョブデータの更新等を行う
+ *
+ * Licensed under The MIT License
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @category	Plugin
+ * @package		QueuePlugin
+ * @author		Phize
+ * @copyright	2010 Phize (http://phize.net/)
+ * @license		MIT License (http://www.opensource.org/licenses/mit-license.php)
+ *
+ * @todo QueueQueue::dequeue()～QueueJob::begin()用のステータス追加(?)
  */
 class QueueJob extends QueueAppModel {
 	/**
