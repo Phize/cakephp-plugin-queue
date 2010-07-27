@@ -306,9 +306,12 @@ class QueueJob extends QueueAppModel {
 			'recursive',
 			'interval',
 			'retry_delay',
+			'tries',
 			'max_tries',
 			'parameters',
 			'scheduled',
+			'tried',
+			'completed',
 			'polling_delay',
 			'status'
 		);
