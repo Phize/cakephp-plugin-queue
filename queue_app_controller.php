@@ -16,7 +16,7 @@ class QueueAppController extends AppController {
 	/**
 	 * コンストラクター
 	 */
-    function __construct() {
+	function __construct() {
 		parent::__construct();
 
 		$this->config = Configure::read('Queue');

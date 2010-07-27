@@ -36,7 +36,7 @@ class QueueAppModel extends AppModel {
 	 * @param string $table 使用するデータベースのテーブル名
 	 * @param string $ds データソースの接続名
 	 */
-    function __construct($id = false, $table = null, $ds = null) {
+	function __construct($id = false, $table = null, $ds = null) {
 		if (Configure::read('Queue.database')) {
             $dbAvailable = in_array(Configure::read('Queue.database'), array_keys(ConnectionManager::enumConnectionObjects()));
             $this->useDbConfig = $dbAvailable ? Configure::read('Queue.database') : $this->useDbConfig;
