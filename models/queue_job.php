@@ -386,8 +386,8 @@ class QueueJob extends QueueAppModel {
 	protected function _select($id = null) {
 		$job = false;
 
-		$current = $this->selected();
 		if ($id === null) {
+			$current = $this->selected();
 			if (!empty($current)) $job = $current;
 		}
 		else {
