@@ -12,8 +12,6 @@
  * @author		Phize
  * @copyright	2010 Phize (http://phize.net/)
  * @license		MIT License (http://www.opensource.org/licenses/mit-license.php)
- *
- * @todo (ジョブ、またはキューの)polling_delayでsleep()するメソッドを追加
  */
 class QueueQueue extends QueueAppModel {
 	/**
@@ -435,6 +433,18 @@ class QueueQueue extends QueueAppModel {
 		if (($id = $this->_getId($id)) === false) return false;
 
 		return $this->QueueJob->next($id, $types);
+	}
+
+	/**
+	 * 次のジョブまで休止
+	 *
+	 * @param integer $id ジョブID
+	 */
+	public function wait($id = null) {
+		if (!($queue = $this->_select($id))) return false;
+		$queue = isset($queue[$this->alias]) ? $queue[$this->alias] : $queue;
+
+		sleep($queue['polling_delay']);
 	}
 
 	/**

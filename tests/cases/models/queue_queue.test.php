@@ -500,6 +500,14 @@ class QueueQueueTestCase extends CakeTestCase {
 	}
 
 	/**
+	 * wait()のテスト
+	 */
+	public function testWait() {
+		$this->QueueQueue->select(1);
+		$this->QueueQueue->wait();
+	}
+
+	/**
 	 * fix()のテスト
 	 */
 	public function testFix() {
