@@ -10,6 +10,8 @@ Configure::write('Queue.queue.polling_delay', 1);
 Configure::write('Queue.queue.status', 'stopped');
 
 // ジョブの設定
+// ジョブの最大ロック時間(秒)
+Configure::write('Queue.job.lock_time_limit', 60);
 // ジョブの最大実行時間(秒)
 Configure::write('Queue.job.running_time_limit', 3600);
 
