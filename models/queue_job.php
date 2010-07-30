@@ -792,7 +792,7 @@ class QueueJob extends QueueAppModel {
 		);
 		$conditions = array(
 			$this->alias . '.status' => 'running',
-			$this->alias . '.tried >=' => $this->config['job']['time_limit'],
+			$this->alias . '.tried + INTERVAL \'' . $this->config['job']['time_limit'] . '\' SECOND <= \'' . date('Y-m-d H:i:s') . '\'',
 			$this->alias . '.tries > ' => 0
 		);
 		if ($queueId !== null) $conditions[$this->belongsTo['QueueQueue']['foreignKey']] = $queueId;
@@ -807,7 +807,7 @@ class QueueJob extends QueueAppModel {
 		);
 		$conditions = array(
 			$this->alias . '.status' => 'running',
-			$this->alias . '.tried >=' => $this->config['job']['time_limit']
+			$this->alias . '.tried + INTERVAL \'' . $this->config['job']['time_limit'] . '\' SECOND <= \'' . date('Y-m-d H:i:s') . '\'',
 		);
 		if ($queueId !== null) $conditions[$this->belongsTo['QueueQueue']['foreignKey']] = $queueId;
 
