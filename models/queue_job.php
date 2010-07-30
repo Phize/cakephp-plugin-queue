@@ -12,8 +12,6 @@
  * @author		Phize
  * @copyright	2010 Phize (http://phize.net/)
  * @license		MIT License (http://www.opensource.org/licenses/mit-license.php)
- *
- * @todo QueueQueue::dequeue()～QueueJob::begin()用のステータス追加(?)
  */
 class QueueJob extends QueueAppModel {
 	/**
@@ -186,6 +184,11 @@ class QueueJob extends QueueAppModel {
 				'on' => 'update'
 			)
 		),
+		'locked' => array(
+			'rule' => array('isDatetime'),
+			'required' => false,
+			'allowEmpty' => false
+		),
 		'tried' => array(
 			'rule' => array('isDatetime'),
 			'required' => false,
@@ -202,7 +205,7 @@ class QueueJob extends QueueAppModel {
 			'allowEmpty' => false
 		),
 		'status' => array(
-			'rule' => array('inList', array('idle', 'stopped', 'running', 'success', 'error')),
+			'rule' => array('inList', array('idle', 'locked', 'stopped', 'running', 'success', 'error')),
 			'required' => false,
 			'allowEmpty' => false
 		)
@@ -321,6 +324,7 @@ class QueueJob extends QueueAppModel {
 			'max_tries',
 			'parameters',
 			'scheduled',
+			'locked',
 			'tried',
 			'completed',
 			'polling_delay',
@@ -493,6 +497,8 @@ class QueueJob extends QueueAppModel {
 		if (empty($data)) return false;
 
 		$this->import($data[$this->alias]);
+		$this->lock();
+
 		return $data[$this->alias];
 	}
 
@@ -546,6 +552,16 @@ class QueueJob extends QueueAppModel {
 	 */
 	public function isIdle($id = null) {
 		return $this->isStatus('idle', $id);
+	}
+
+	/**
+	 * ジョブのステータスがロック中か検証
+	 *
+	 * @param integer|array $id ジョブID、またはジョブのデータ
+	 * @return boolean 検証の成否
+	 */
+	public function isLocked($id = null) {
+		return $this->isStatus('locked', $id);
 	}
 
 	/**
@@ -605,7 +621,7 @@ class QueueJob extends QueueAppModel {
 		$job = isset($job[$this->alias]) ? $job[$this->alias] : $job;
 		if (!isset($job['tries']) || !isset($job['max_tries']) || !isset($job['scheduled']) || !isset($job['status'])) return false;
 
-		return ($job['tries'] < $job['max_tries']) && (strtotime($job['scheduled']) < time()) && $job['status'] === 'idle';
+		return ($job['tries'] < $job['max_tries']) && (strtotime($job['scheduled']) < time()) && $job['status'] === 'locked';
 	}
 
 	/**
@@ -637,6 +653,27 @@ class QueueJob extends QueueAppModel {
 	 */
 	public function idle($id = null) {
 		return ($this->status('idle', $id));
+	}
+
+	/**
+	 * ジョブをステータスをロック中に変更
+	 *
+	 * @param integer $id ジョブID
+	 * @return boolean 処理の成否
+	 */
+	public function lock($id = null) {
+		$isCurrent = ($id === null) ? true : false;
+		if (($id = $this->_getId($id)) === false) return false;
+
+		$data = array(
+			$this->alias => array(
+				$this->primaryKey => $id,
+				'status' => 'locked',
+				'locked' => date('Y-m-d H:i:s')
+			)
+		);
+
+		return $this->update($data, $isCurrent);
 	}
 
 	/**
@@ -785,14 +822,17 @@ class QueueJob extends QueueAppModel {
 	 * @return boolean 処理の成否
 	 */
 	public function fixAll($queueId = null) {
+		$now = date('Y-m-d H:i:s');
+
 		$this->beginTransaction();
 
+		// 実行回数の修復
 		$fields = array(
 			$this->alias . '.tries' => '`' . $this->alias . '`.`tries` - 1'
 		);
 		$conditions = array(
 			$this->alias . '.status' => 'running',
-			$this->alias . '.tried + INTERVAL \'' . $this->config['job']['time_limit'] . '\' SECOND <= \'' . date('Y-m-d H:i:s') . '\'',
+			$this->alias . '.tried + INTERVAL \'' . $this->config['job']['time_limit'] . '\' SECOND <= \'' . $now . '\'',
 			$this->alias . '.tries > ' => 0
 		);
 		if ($queueId !== null) $conditions[$this->belongsTo['QueueQueue']['foreignKey']] = $queueId;
@@ -802,12 +842,21 @@ class QueueJob extends QueueAppModel {
 			return false;
 		}
 
+		// ステータスの修復
 		$fields = array(
 			$this->alias . '.status' => '\'idle\'',
 		);
 		$conditions = array(
-			$this->alias . '.status' => 'running',
-			$this->alias . '.tried + INTERVAL \'' . $this->config['job']['time_limit'] . '\' SECOND <= \'' . date('Y-m-d H:i:s') . '\'',
+			'or' => array(
+				array(
+					$this->alias . '.status' => 'locked',
+					$this->alias . '.locked + INTERVAL \'' . $this->config['job']['time_limit'] . '\' SECOND <= \'' . $now . '\''
+				),
+				array(
+					$this->alias . '.status' => 'running',
+					$this->alias . '.tried + INTERVAL \'' . $this->config['job']['time_limit'] . '\' SECOND <= \'' . $now . '\''
+				)
+			)
 		);
 		if ($queueId !== null) $conditions[$this->belongsTo['QueueQueue']['foreignKey']] = $queueId;
 

@@ -33,6 +33,7 @@ CREATE TABLE IF NOT EXISTS `queue_jobs` (
   `parameters` text NOT NULL COMMENT 'パラメーター',
   `created` datetime NOT NULL COMMENT '作成日時',
   `scheduled` datetime NOT NULL COMMENT '次回の実行日時',
+  `locked` datetime NOT NULL default '0000-00-00 00:00:00' COMMENT 'ロック日時',
   `tried` datetime NOT NULL default '0000-00-00 00:00:00' COMMENT '実行開始日時',
   `completed` datetime NOT NULL default '0000-00-00 00:00:00' COMMENT '実行成功日時',
   `polling_delay` int(10) unsigned NOT NULL default '1' COMMENT '次のジョブを実行するまでの待ち時間',

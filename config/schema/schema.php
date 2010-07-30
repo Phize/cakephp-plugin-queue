@@ -25,6 +25,7 @@ class QueuePluginSchema extends CakeSchema {
 		'parameters' => array('type' => 'text', 'null' => false, 'default' => NULL),
 		'created' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
 		'scheduled' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
+		'locked' => array('type' => 'datetime', 'null' => false, 'default' => '0000-00-00 00:00:00'),
 		'tried' => array('type' => 'datetime', 'null' => false, 'default' => '0000-00-00 00:00:00'),
 		'completed' => array('type' => 'datetime', 'null' => false, 'default' => '0000-00-00 00:00:00'),
 		'polling_delay' => array('type' => 'integer', 'null' => false, 'default' => '1', 'length' => 10),

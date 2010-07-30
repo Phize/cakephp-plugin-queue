@@ -86,6 +86,7 @@ class QueueJobTestCase extends CakeTestCase {
 			'parameters' => '',
 			'created' => '0000-00-00 00:00:00',
 			'scheduled' => '0000-00-00 00:00:00',
+			'locked' => '0000-00-00 00:00:00',
 			'tried' => '0000-00-00 00:00:00',
 			'completed' => '0000-00-00 00:00:00',
 			'polling_delay' => '1',
@@ -342,6 +343,9 @@ class QueueJobTestCase extends CakeTestCase {
 		$this->assertIdentical($result, false);
 
 		$result = $this->QueueJob->next(1);
+		$this->QueueJob->select($result['id']);
+		$this->QueueJob->begin();
+		$this->QueueJob->completed();
 		$this->assertNotIdentical($result, false);
 
 		$result = $this->QueueJob->next(2);
@@ -476,6 +480,35 @@ class QueueJobTestCase extends CakeTestCase {
 	}
 
 	/**
+	 * isLocked()のテスト
+	 */
+	public function testIsLocked() {
+		$result = $this->QueueJob->isLocked();
+		$this->assertIdentical($result, false);
+
+		$result = $this->QueueJob->isLocked(3);
+		$this->assertIdentical($result, false);
+
+		$result = $this->QueueJob->isLocked(array());
+		$this->assertIdentical($result, false);
+
+		$this->QueueJob->select(11);
+		$result = $this->QueueJob->isLocked();
+		$this->assertIdentical($result, true);
+
+		$result = $this->QueueJob->isLocked(11);
+		$this->assertIdentical($result, true);
+
+		$job =$this->QueueJob->select(11);
+		$result = $this->QueueJob->isLocked($job);
+		$this->assertIdentical($result, true);
+
+		$job =$this->QueueJob->findById(11);
+		$result = $this->QueueJob->isLocked($job);
+		$this->assertIdentical($result, true);
+	}
+
+	/**
 	 * isStopped()のテスト
 	 */
 	public function testIsStopped() {
@@ -599,23 +632,28 @@ class QueueJobTestCase extends CakeTestCase {
 		$this->assertIdentical($result, false);
 
 		$result = $this->QueueJob->isRunnable(7);
+		$this->QueueJob->lock();
 		$this->assertIdentical($result, false);
 
 		$result = $this->QueueJob->isRunnable(array());
 		$this->assertIdentical($result, false);
 
 		$this->QueueJob->select(1);
+		$this->QueueJob->lock();
 		$result = $this->QueueJob->isRunnable();
 		$this->assertIdentical($result, true);
 
+		$this->QueueJob->lock(1);
 		$result = $this->QueueJob->isRunnable(1);
 		$this->assertIdentical($result, true);
 
 		$job = $this->QueueJob->select(1);
+		$this->QueueJob->lock();
 		$result = $this->QueueJob->isRunnable($job);
 		$this->assertIdentical($result, true);
 
 		$job = $this->QueueJob->findById(1);
+		$this->QueueJob->lock(1);
 		$result = $this->QueueJob->isRunnable($job);
 		$this->assertIdentical($result, true);
 	}
@@ -634,7 +672,7 @@ class QueueJobTestCase extends CakeTestCase {
 		$result = $this->QueueJob->testStatus('idle');
 		$this->assertIdentical($result, true);
 
-		$result = $this->QueueJob->testStatus('idle', 1);
+		$result = $this->QueueJob->testStatus('idle', 2);
 		$this->assertIdentical($result, true);
 	}
 
@@ -652,7 +690,25 @@ class QueueJobTestCase extends CakeTestCase {
 		$result = $this->QueueJob->idle();
 		$this->assertIdentical($result, true);
 
-		$result = $this->QueueJob->idle(1);
+		$result = $this->QueueJob->idle(2);
+		$this->assertIdentical($result, true);
+	}
+
+	/**
+	 * lock()のテスト
+	 */
+	public function testLock() {
+		$result = $this->QueueJob->lock();
+		$this->assertIdentical($result, false);
+
+		$result = $this->QueueJob->lock(900);
+		$this->assertIdentical($result, false);
+
+		$this->QueueJob->select(1);
+		$result = $this->QueueJob->lock();
+		$this->assertIdentical($result, true);
+
+		$result = $this->QueueJob->lock(2);
 		$this->assertIdentical($result, true);
 	}
 
@@ -670,7 +726,7 @@ class QueueJobTestCase extends CakeTestCase {
 		$result = $this->QueueJob->stop();
 		$this->assertIdentical($result, true);
 
-		$result = $this->QueueJob->stop(1);
+		$result = $this->QueueJob->stop(2);
 		$this->assertIdentical($result, true);
 	}
 
@@ -688,7 +744,7 @@ class QueueJobTestCase extends CakeTestCase {
 		$result = $this->QueueJob->run();
 		$this->assertIdentical($result, true);
 
-		$result = $this->QueueJob->run(1);
+		$result = $this->QueueJob->run(2);
 		$this->assertIdentical($result, true);
 	}
 
@@ -706,7 +762,7 @@ class QueueJobTestCase extends CakeTestCase {
 		$result = $this->QueueJob->success();
 		$this->assertIdentical($result, true);
 
-		$result = $this->QueueJob->success(1);
+		$result = $this->QueueJob->success(2);
 		$this->assertIdentical($result, true);
 	}
 
@@ -724,7 +780,7 @@ class QueueJobTestCase extends CakeTestCase {
 		$result = $this->QueueJob->error();
 		$this->assertIdentical($result, true);
 
-		$result = $this->QueueJob->error(1);
+		$result = $this->QueueJob->error(2);
 		$this->assertIdentical($result, true);
 	}
 
@@ -735,13 +791,16 @@ class QueueJobTestCase extends CakeTestCase {
 		$result = $this->QueueJob->begin();
 		$this->assertIdentical($result, false);
 
+		$this->QueueJob->lock(7);
 		$result = $this->QueueJob->begin(7);
 		$this->assertIdentical($result, false);
 
-		$this->QueueJob->select(1);
+		$job = $this->QueueJob->select(1);
+		$this->QueueJob->lock();
 		$result = $this->QueueJob->begin();
 		$this->assertIdentical($result, true);
 
+		$this->QueueJob->lock(2);
 		$result = $this->QueueJob->begin(2);
 		$this->assertIdentical($result, true);
 	}
@@ -753,18 +812,22 @@ class QueueJobTestCase extends CakeTestCase {
 		$result = $this->QueueJob->completed();
 		$this->assertIdentical($result, false);
 
+		$this->QueueJob->lock(1);
 		$result = $this->QueueJob->completed(1);
 		$this->assertIdentical($result, false);
 
 		$this->QueueJob->select(1);
+		$this->QueueJob->lock();
 		$result = $this->QueueJob->completed();
 		$this->assertIdentical($result, false);
 
 		$this->QueueJob->select(1);
+		$this->QueueJob->lock();
 		$this->QueueJob->begin();
 		$result = $this->QueueJob->completed();
 		$this->assertIdentical($result, true);
 
+		$this->QueueJob->lock(2);
 		$this->QueueJob->begin(2);
 		$result = $this->QueueJob->completed(2);
 		$this->assertIdentical($result, true);
@@ -777,18 +840,22 @@ class QueueJobTestCase extends CakeTestCase {
 		$result = $this->QueueJob->failed();
 		$this->assertIdentical($result, false);
 
+		$this->QueueJob->lock(1);
 		$result = $this->QueueJob->failed(1);
 		$this->assertIdentical($result, false);
 
 		$this->QueueJob->select(1);
+		$this->QueueJob->lock();
 		$result = $this->QueueJob->failed();
 		$this->assertIdentical($result, false);
 
 		$this->QueueJob->select(1);
+		$this->QueueJob->lock();
 		$this->QueueJob->begin();
 		$result = $this->QueueJob->failed();
 		$this->assertIdentical($result, true);
 
+		$this->QueueJob->lock(2);
 		$this->QueueJob->begin(2);
 		$result = $this->QueueJob->failed(2);
 		$this->assertIdentical($result, true);

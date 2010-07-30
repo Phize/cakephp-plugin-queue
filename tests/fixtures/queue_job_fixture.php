@@ -16,6 +16,7 @@ class QueueJobFixture extends CakeTestFixture {
 		'parameters' => array('type' => 'text', 'null' => false, 'default' => NULL),
 		'created' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
 		'scheduled' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
+		'locked' => array('type' => 'datetime', 'null' => false, 'default' => '0000-00-00 00:00:00'),
 		'tried' => array('type' => 'datetime', 'null' => false, 'default' => '0000-00-00 00:00:00'),
 		'completed' => array('type' => 'datetime', 'null' => false, 'default' => '0000-00-00 00:00:00'),
 		'polling_delay' => array('type' => 'integer', 'null' => false, 'default' => '1', 'length' => 10),
@@ -167,7 +168,7 @@ class QueueJobFixture extends CakeTestFixture {
 			array(
 				'id' => 10,
 				'queue_id' => 2,
-				'name' => 'Job 9',
+				'name' => 'Job 2',
 				'type' => 'job 1',
 				'priority' => 50,
 				'recursive' => 0,
@@ -179,6 +180,36 @@ class QueueJobFixture extends CakeTestFixture {
 				'polling_delay' => 1,
 				'status' => 'running'
 			),
+			array(
+				'id' => 11,
+				'queue_id' => 1,
+				'name' => 'Job 9',
+				'type' => 'job 1',
+				'priority' => 50,
+				'recursive' => 0,
+				'interval' => 86400,
+				'retry_delay' => 60,
+				'tries' => 1,
+				'max_tries' => 5,
+				'scheduled' => date('Y-m-d H:i:s'),
+				'polling_delay' => 1,
+				'status' => 'locked'
+			),
+			array(
+				'id' => 12,
+				'queue_id' => 1,
+				'name' => 'Job 10',
+				'type' => 'job 1',
+				'priority' => 50,
+				'recursive' => 0,
+				'interval' => 86400,
+				'retry_delay' => 60,
+				'tries' => 1,
+				'max_tries' => 5,
+				'scheduled' => date('Y-m-d H:i:s'),
+				'polling_delay' => 1,
+				'status' => 'idle'
+			)
 		);
 
 		parent::__construct();
