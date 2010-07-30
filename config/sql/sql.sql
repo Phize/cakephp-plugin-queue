@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS `queue_logs` (
 CREATE TABLE IF NOT EXISTS `queue_queues` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `name` varchar(255) NOT NULL COMMENT 'キュー名',
-  `polling_delay` int(10) unsigned NOT NULL default '1',
+  `polling_delay` int(10) unsigned NOT NULL default '1' COMMENT '次のジョブを実行するまでの待ち時間',
   `created` datetime NOT NULL COMMENT '作成日時',
   `status` varchar(255) NOT NULL default 'stopped' COMMENT 'ステータス (stopped = 停止中, running = 稼働中)',
   PRIMARY KEY  (`id`),
