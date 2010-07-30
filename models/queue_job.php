@@ -816,6 +816,18 @@ class QueueJob extends QueueAppModel {
 	}
 
 	/**
+	 * 次のジョブまで休止
+	 *
+	 * @param integer $id ジョブID
+	 */
+	public function wait($id = null) {
+		if (!($job = $this->_select($id))) return false;
+		$job = isset($job[$this->alias]) ? $job[$this->alias] : $job;
+
+		sleep($job['polling_delay']);
+	}
+
+	/**
 	 * 最大ロック時間、最大実行時間を超えたジョブを修復
 	 *
 	 * @param integer $queueId キューID

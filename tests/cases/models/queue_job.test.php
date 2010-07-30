@@ -862,6 +862,14 @@ class QueueJobTestCase extends CakeTestCase {
 	}
 
 	/**
+	 * wait()のテスト
+	 */
+	public function testWait() {
+		$this->QueueJob->select(1);
+		$this->QueueJob->wait();
+	}
+
+	/**
 	 * fixAll()のテスト
 	 */
 	public function testFixAll() {
