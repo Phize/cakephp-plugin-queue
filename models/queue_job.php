@@ -816,7 +816,7 @@ class QueueJob extends QueueAppModel {
 	}
 
 	/**
-	 * 最大実行時間を超えたジョブを修復
+	 * 最大ロック時間、最大実行時間を超えたジョブを修復
 	 *
 	 * @param integer $queueId キューID
 	 * @return boolean 処理の成否
