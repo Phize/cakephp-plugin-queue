@@ -626,7 +626,7 @@ class QueueJob extends QueueAppModel {
 			)
 		);
 
-		return $this->update($data, true);
+		return $this->update($data, $isCurrent);
 	}
 
 	/**
