@@ -639,6 +639,10 @@ class QueueJobTestCase extends CakeTestCase {
 		$this->assertIdentical($result, false);
 
 		$this->QueueJob->select(1);
+		$result = $this->QueueJob->isRunnable();
+		$this->assertIdentical($result, true);
+
+		$this->QueueJob->select(1);
 		$this->QueueJob->lock();
 		$result = $this->QueueJob->isRunnable();
 		$this->assertIdentical($result, true);
