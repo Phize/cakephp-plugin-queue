@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `queue_jobs` (
   `tried` datetime NOT NULL default '0000-00-00 00:00:00' COMMENT '実行開始日時',
   `completed` datetime NOT NULL default '0000-00-00 00:00:00' COMMENT '実行成功日時',
   `polling_delay` int(10) unsigned NOT NULL default '1' COMMENT '次のジョブを実行するまでの待ち時間',
-  `status` varchar(255) NOT NULL default 'idle' COMMENT 'ステータス (idle = 実行待ち中, stopped = 停止中, running = 実行中, success = 成功, error = エラー)',
+  `status` varchar(255) NOT NULL default 'idle' COMMENT 'ステータス (idle = 実行待ち中, locked = ロック中, stopped = 停止中, running = 実行中, success = 成功, error = エラー)',
   PRIMARY KEY  (`id`),
   UNIQUE KEY `queue_id_name` (`queue_id`,`name`),
   KEY `queue_id` (`queue_id`)
