@@ -384,11 +384,9 @@ class QueueJob extends QueueAppModel {
 	 * @return array ジョブの取得に成功した場合はジョブのデータ、失敗した場合はfalse
 	 */
 	protected function _select($id = null) {
-		$job = false;
-
 		if ($id === null) {
-			$current = $this->selected();
-			if (!empty($current)) $job = $current;
+			$data = $this->selected();
+			if (empty($data)) return false;
 		}
 		else {
 			$options = array(
@@ -398,10 +396,10 @@ class QueueJob extends QueueAppModel {
 			);
 
 			$data = $this->find('first', $options);
-			if (!empty($data)) $job = $data;
+			if (empty($data)) return false;
 		}
 
-		return $job;
+		return $data;
 	}
 
 	/**
