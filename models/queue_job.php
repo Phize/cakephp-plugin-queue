@@ -844,7 +844,7 @@ class QueueJob extends QueueAppModel {
 		);
 		$conditions = array(
 			$this->alias . '.status' => 'running',
-			$this->alias . '.tried + INTERVAL \'' . $this->config['job']['running_time_limit'] . '\' SECOND <= \'' . $now . '\'',
+			$this->alias . '.tried + INTERVAL \'' . $this->config['job']['running_time_limit'] . '\' SECOND < \'' . $now . '\'',
 			$this->alias . '.tries > ' => 0
 		);
 		if ($queueId !== null) $conditions[$this->belongsTo['QueueQueue']['foreignKey']] = $queueId;
@@ -862,11 +862,11 @@ class QueueJob extends QueueAppModel {
 			'or' => array(
 				array(
 					$this->alias . '.status' => 'locked',
-					$this->alias . '.locked + INTERVAL \'' . $this->config['job']['lock_time_limit'] . '\' SECOND <= \'' . $now . '\''
+					$this->alias . '.locked + INTERVAL \'' . $this->config['job']['lock_time_limit'] . '\' SECOND < \'' . $now . '\''
 				),
 				array(
 					$this->alias . '.status' => 'running',
-					$this->alias . '.tried + INTERVAL \'' . $this->config['job']['running_time_limit'] . '\' SECOND <= \'' . $now . '\''
+					$this->alias . '.tried + INTERVAL \'' . $this->config['job']['running_time_limit'] . '\' SECOND < \'' . $now . '\''
 				)
 			)
 		);
