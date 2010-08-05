@@ -620,7 +620,7 @@ class QueueJob extends QueueAppModel {
 		if (!isset($job['tries']) || !isset($job['max_tries']) || !isset($job['scheduled']) || !isset($job['status'])) return false;
 
 		return $job['tries'] < $job['max_tries']
-					&& strtotime($job['scheduled']) < time()
+					&& strtotime($job['scheduled']) <= time()
 					&& ($job['status'] === 'locked' || $job['status'] === 'idle');
 	}
 
