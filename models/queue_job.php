@@ -495,9 +495,9 @@ class QueueJob extends QueueAppModel {
 		if (empty($data)) return false;
 
 		if (!$this->lock($data[$this->alias][$this->primaryKey])) return false;
-		$this->import($data[$this->alias]);
+		$this->import($data);
 
-		return $data[$this->alias];
+		return $data;
 	}
 
 	/**
