@@ -1,4 +1,5 @@
 <?php
+App::import('File', 'Queue.Core', array('file' => APP . 'plugins' . DS . 'queue' . DS . 'config' . DS . 'core.php'));
 App::import('Model', 'Queue.QueueJob');
 
 class TestQueueJob extends QueueJob {

@@ -1,4 +1,6 @@
 <?php
+App::import('File', 'Queue.Core', array('file' => APP . 'plugins' . DS . 'queue' . DS . 'config' . DS . 'core.php'));
+
 class QueueLogTestCase extends CakeTestCase {
 	public $fixtures = array('plugin.Queue.queue_queue', 'plugin.Queue.queue_job', 'plugin.Queue.queue_log');
 	protected $config = array();
