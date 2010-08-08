@@ -36,6 +36,9 @@ class QueueLogTestCase extends CakeTestCase {
 	 * add()のテスト
 	 */
 	public function testAdd() {
+		$result = $this->QueueLog->add(900, 'success', 'Success.');
+		$this->assertIdentical($result, false);
+
 		$result = $this->QueueLog->add(1, 'success', 'Success.');
 		$this->assertIdentical($result, true);
 	}
