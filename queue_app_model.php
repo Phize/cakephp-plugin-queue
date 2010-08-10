@@ -42,7 +42,7 @@ class QueueAppModel extends AppModel {
             $this->useDbConfig = $dbAvailable ? Configure::read('Queue.database') : $this->useDbConfig;
         }
 
-		parent::__construct($id, $table, $ds);
+		parent::__construct($id, $table, $this->useDbConfig);
 
 		$this->config = Configure::read('Queue');
 	}
