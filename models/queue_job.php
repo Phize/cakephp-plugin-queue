@@ -794,7 +794,7 @@ class QueueJob extends QueueAppModel {
 		$job = isset($job[$this->alias]) ? $job[$this->alias] : $job;
 
 		$data = array();
-		if ($job['tries'] + 1 >= $job['max_tries']) {
+		if ($job['tries'] + 1 > $job['max_tries']) {
 			$data = array(
 				$this->alias => array(
 					$this->primaryKey => $job[$this->primaryKey],
