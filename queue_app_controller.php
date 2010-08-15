@@ -11,7 +11,7 @@ class QueueAppController extends AppController {
 	 *
 	 * @var array
 	 */
-	protected $config = array();
+	protected $queueConfig = array();
 
 	/**
 	 * コンストラクター
@@ -19,6 +19,6 @@ class QueueAppController extends AppController {
 	function __construct() {
 		parent::__construct();
 
-		$this->config = Configure::read('Queue');
+		$this->queueConfig = Configure::read('Queue');
 	}
 }

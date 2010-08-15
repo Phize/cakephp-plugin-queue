@@ -247,14 +247,14 @@ class QueueJob extends QueueAppModel {
 		);
 
 		$defaults = array(
-			'priority' => $this->config['job']['priority'],
-			'recursive' => $this->config['job']['recursive'],
-			'interval' => $this->config['job']['interval'],
-			'retry_delay' => $this->config['job']['retry_delay'],
-			'max_tries' => $this->config['job']['max_tries'],
+			'priority' => $this->queueConfig['job']['priority'],
+			'recursive' => $this->queueConfig['job']['recursive'],
+			'interval' => $this->queueConfig['job']['interval'],
+			'retry_delay' => $this->queueConfig['job']['retry_delay'],
+			'max_tries' => $this->queueConfig['job']['max_tries'],
 			'scheduled' => date('Y-m-d H:i:s'),
-			'polling_delay' => $this->config['job']['polling_delay'],
-			'status' => $this->config['job']['status']
+			'polling_delay' => $this->queueConfig['job']['polling_delay'],
+			'status' => $this->queueConfig['job']['status']
 		);
 		$options = array_merge($defaults, $options);
 
@@ -844,7 +844,7 @@ class QueueJob extends QueueAppModel {
 		);
 		$conditions = array(
 			$this->alias . '.status' => 'running',
-			$this->alias . '.tried + INTERVAL \'' . $this->config['job']['running_time_limit'] . '\' SECOND < \'' . $now . '\'',
+			$this->alias . '.tried + INTERVAL \'' . $this->queueConfig['job']['running_time_limit'] . '\' SECOND < \'' . $now . '\'',
 			$this->alias . '.tries > ' => 0
 		);
 		if ($queueId !== null) $conditions[$this->belongsTo['QueueQueue']['foreignKey']] = $queueId;
@@ -862,11 +862,11 @@ class QueueJob extends QueueAppModel {
 			'or' => array(
 				array(
 					$this->alias . '.status' => 'locked',
-					$this->alias . '.locked + INTERVAL \'' . $this->config['job']['lock_time_limit'] . '\' SECOND < \'' . $now . '\''
+					$this->alias . '.locked + INTERVAL \'' . $this->queueConfig['job']['lock_time_limit'] . '\' SECOND < \'' . $now . '\''
 				),
 				array(
 					$this->alias . '.status' => 'running',
-					$this->alias . '.tried + INTERVAL \'' . $this->config['job']['running_time_limit'] . '\' SECOND < \'' . $now . '\''
+					$this->alias . '.tried + INTERVAL \'' . $this->queueConfig['job']['running_time_limit'] . '\' SECOND < \'' . $now . '\''
 				)
 			)
 		);

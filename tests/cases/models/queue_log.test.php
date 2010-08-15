@@ -1,12 +1,12 @@
 <?php
 class QueueLogTestCase extends CakeTestCase {
 	public $fixtures = array('plugin.Queue.queue_queue', 'plugin.Queue.queue_job', 'plugin.Queue.queue_log');
-	protected $config = array();
+	protected $queueConfig = array();
 
 	public function start() {
 		parent::start();
 
-		$this->config = Configure::read('Queue');
+		$this->queueConfig = Configure::read('Queue');
 	}
 
 	public function end() {

@@ -28,12 +28,12 @@ class TestQueueQueue extends QueueQueue {
 
 class QueueQueueTestCase extends CakeTestCase {
 	public $fixtures = array('plugin.Queue.queue_queue', 'plugin.Queue.queue_job', 'plugin.Queue.queue_log');
-	protected $config = array();
+	protected $queueConfig = array();
 
 	public function start() {
 		parent::start();
 
-		$this->config = Configure::read('Queue');
+		$this->queueConfig = Configure::read('Queue');
 	}
 
 	public function end() {
@@ -77,9 +77,9 @@ class QueueQueueTestCase extends CakeTestCase {
 		$data = array(
 			$this->QueueQueue->primaryKey => $this->QueueQueue->getDataSource()->lastInsertId(),
 			'name' => 'Queue 901',
-			'polling_delay' => (string) $this->config['queue']['polling_delay'],
+			'polling_delay' => (string) $this->queueConfig['queue']['polling_delay'],
 			'created' => '0000-00-00 00:00:00',
-			'status' => $this->config['queue']['status']
+			'status' => $this->queueConfig['queue']['status']
 		);
 		$this->assertIdentical($this->QueueQueue->selected(), $data);
 	}

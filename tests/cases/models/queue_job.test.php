@@ -24,12 +24,12 @@ class TestQueueJob extends QueueJob {
 
 class QueueJobTestCase extends CakeTestCase {
 	public $fixtures = array('plugin.Queue.queue_queue', 'plugin.Queue.queue_job', 'plugin.Queue.queue_log');
-	protected $config = array();
+	protected $queueConfig = array();
 
 	public function start() {
 		parent::start();
 
-		$this->config = Configure::read('Queue');
+		$this->queueConfig = Configure::read('Queue');
 	}
 
 	public function end() {
@@ -77,12 +77,12 @@ class QueueJobTestCase extends CakeTestCase {
 			$this->QueueJob->belongsTo['QueueQueue']['foreignKey'] => '1',
 			'name' => 'Job 901',
 			'type' => 'job',
-			'priority' => (string) $this->config['job']['priority'],
-			'recursive' => (string) $this->config['job']['recursive'],
-			'interval' => (string) $this->config['job']['interval'],
-			'retry_delay' => (string) $this->config['job']['retry_delay'],
+			'priority' => (string) $this->queueConfig['job']['priority'],
+			'recursive' => (string) $this->queueConfig['job']['recursive'],
+			'interval' => (string) $this->queueConfig['job']['interval'],
+			'retry_delay' => (string) $this->queueConfig['job']['retry_delay'],
 			'tries' => '0',
-			'max_tries' => (string) $this->config['job']['max_tries'],
+			'max_tries' => (string) $this->queueConfig['job']['max_tries'],
 			'parameters' => '',
 			'created' => '0000-00-00 00:00:00',
 			'scheduled' => '0000-00-00 00:00:00',
@@ -90,7 +90,7 @@ class QueueJobTestCase extends CakeTestCase {
 			'tried' => '0000-00-00 00:00:00',
 			'completed' => '0000-00-00 00:00:00',
 			'polling_delay' => '1',
-			'status' => $this->config['job']['status']
+			'status' => $this->queueConfig['job']['status']
 		);
 		$this->assertIdentical($this->QueueJob->selected(), $data);
 	}

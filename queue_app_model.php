@@ -25,7 +25,7 @@ class QueueAppModel extends AppModel {
 	 *
 	 * @var array
 	 */
-	protected $config = array();
+	protected $queueConfig = array();
 
 
 
@@ -44,6 +44,6 @@ class QueueAppModel extends AppModel {
 
 		parent::__construct($id, $table, $this->useDbConfig);
 
-		$this->config = Configure::read('Queue');
+		$this->queueConfig = Configure::read('Queue');
 	}
 }

@@ -111,8 +111,8 @@ class QueueQueue extends QueueAppModel {
 		);
 
 		$defaults = array(
-			'polling_delay' => $this->config['queue']['polling_delay'],
-			'status' => $this->config['queue']['status']
+			'polling_delay' => $this->queueConfig['queue']['polling_delay'],
+			'status' => $this->queueConfig['queue']['status']
 		);
 		$options = array_merge($defaults, $options);
 
