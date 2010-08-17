@@ -17,7 +17,7 @@ class QueuePluginSchema extends CakeSchema {
 		'name' => array('type' => 'string', 'null' => false, 'default' => NULL),
 		'type' => array('type' => 'string', 'null' => false, 'default' => NULL),
 		'priority' => array('type' => 'integer', 'null' => false, 'default' => '50', 'length' => 2),
-		'recursive' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
+		'is_recursive' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
 		'interval' => array('type' => 'integer', 'null' => false, 'default' => '86400', 'length' => 10),
 		'retry_delay' => array('type' => 'integer', 'null' => false, 'default' => '60', 'length' => 10),
 		'tries' => array('type' => 'integer', 'null' => false, 'default' => '0', 'length' => 10),

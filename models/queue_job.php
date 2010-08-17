@@ -140,7 +140,7 @@ class QueueJob extends QueueAppModel {
 			'required' => false,
 			'allowEmpty' => false
 		),
-		'recursive' => array(
+		'is_recursive' => array(
 			'rule' => array('custom', '/^0|1$/'),
 			'required' => false,
 			'allowEmpty' => false
@@ -236,7 +236,7 @@ class QueueJob extends QueueAppModel {
 			'name',
 			'type',
 			'priority',
-			'recursive',
+			'is_recursive',
 			'interval',
 			'retry_delay',
 			'max_tries',
@@ -248,7 +248,7 @@ class QueueJob extends QueueAppModel {
 
 		$defaults = array(
 			'priority' => $this->queueConfig['job']['priority'],
-			'recursive' => $this->queueConfig['job']['recursive'],
+			'is_recursive' => $this->queueConfig['job']['is_recursive'],
 			'interval' => $this->queueConfig['job']['interval'],
 			'retry_delay' => $this->queueConfig['job']['retry_delay'],
 			'max_tries' => $this->queueConfig['job']['max_tries'],
@@ -317,7 +317,7 @@ class QueueJob extends QueueAppModel {
 			'name',
 			'type',
 			'priority',
-			'recursive',
+			'is_recursive',
 			'interval',
 			'retry_delay',
 			'tries',
@@ -755,7 +755,7 @@ class QueueJob extends QueueAppModel {
 		$job = isset($job[$this->alias]) ? $job[$this->alias] : $job;
 
 		$data = array();
-		if ($job['recursive']) {
+		if ($job['is_recursive']) {
 			$data = array(
 				$this->alias => array(
 					$this->primaryKey => $job[$this->primaryKey],

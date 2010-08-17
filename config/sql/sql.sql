@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS `queue_jobs` (
   `name` varchar(255) NOT NULL COMMENT 'ジョブ名',
   `type` varchar(255) NOT NULL COMMENT 'ジョブタイプ',
   `priority` tinyint(2) NOT NULL default '50' COMMENT '優先度(0 = 低, 99 = 高)',
-  `recursive` tinyint(1) NOT NULL default '0' COMMENT '繰り返し実行',
+  `is_recursive` tinyint(1) NOT NULL default '0' COMMENT '繰り返し実行',
   `interval` int(10) unsigned NOT NULL default '86400' COMMENT '繰り返し実行時の実行間隔',
   `retry_delay` int(10) unsigned NOT NULL default '60' COMMENT 'リトライの待ち時間',
   `tries` int(10) unsigned NOT NULL default '0' COMMENT '実行回数(リトライ用)',

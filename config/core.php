@@ -19,7 +19,7 @@ Configure::write('Queue.job.running_time_limit', 3600);
 // ジョブの優先度(99が最優先)
 Configure::write('Queue.job.priority', 50);
 // ジョブを定期的に実行
-Configure::write('Queue.job.recursive', 0);
+Configure::write('Queue.job.is_recursive', 0);
 // ジョブの定期実行時にジョブを再実行する間隔(秒)
 Configure::write('Queue.job.interval', 86400);
 // ジョブのエラー時にジョブを再実行するまでの待ち時間(秒)
