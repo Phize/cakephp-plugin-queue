@@ -847,7 +847,7 @@ class QueueJob extends QueueAppModel {
 			$this->alias . '.tried + INTERVAL \'' . $this->queueConfig['job']['running_time_limit'] . '\' SECOND < \'' . $now . '\'',
 			$this->alias . '.tries > ' => 0
 		);
-		if ($queueId !== null) $conditions[$this->belongsTo['QueueQueue']['foreignKey']] = $queueId;
+		if ($queueId !== null) $conditions[$this->alias . '.' . $this->belongsTo['QueueQueue']['foreignKey']] = $queueId;
 
 		if (!$this->updateAll($fields, $conditions)) {
 			$this->rollbackTransaction();
@@ -870,7 +870,7 @@ class QueueJob extends QueueAppModel {
 				)
 			)
 		);
-		if ($queueId !== null) $conditions[$this->belongsTo['QueueQueue']['foreignKey']] = $queueId;
+		if ($queueId !== null) $conditions[$this->alias . '.' . $this->belongsTo['QueueQueue']['foreignKey']] = $queueId;
 
 		if (!$this->updateAll($fields, $conditions)) {
 			$this->rollbackTransaction();
@@ -900,7 +900,7 @@ class QueueJob extends QueueAppModel {
 			)
 		);
 
-		if ($queueId !== null) $conditions[$this->belongsTo['QueueQueue']['foreignKey']] = $queueId;
+		if ($queueId !== null) $conditions[$this->alias . '.' . $this->belongsTo['QueueQueue']['foreignKey']] = $queueId;
 
 		return ($this->deleteAll($conditions) !== false);
 	}
