@@ -934,13 +934,13 @@ class QueueJobTestCase extends CakeTestCase {
 	}
 
 	/**
-	 * countIdle()のテスト
+	 * countWaiting()のテスト
 	 */
-	public function testCountIdle() {
-		$result = $this->QueueJob->countIdle();
+	public function testCountWaiting() {
+		$result = $this->QueueJob->countWaiting();
 		$this->assertIdentical($result, 5);
 
-		$result = $this->QueueJob->countIdle(1);
+		$result = $this->QueueJob->countWaiting(1);
 		$this->assertIdentical($result, 4);
 	}
 
@@ -978,24 +978,24 @@ class QueueJobTestCase extends CakeTestCase {
 	}
 
 	/**
-	 * countSuccess()のテスト
+	 * countCompleted()のテスト
 	 */
-	public function testCountSuccess() {
-		$result = $this->QueueJob->countSuccess();
+	public function testCountCompleted() {
+		$result = $this->QueueJob->countCompleted();
 		$this->assertIdentical($result, 1);
 
-		$result = $this->QueueJob->countSuccess(1);
+		$result = $this->QueueJob->countCompleted(1);
 		$this->assertIdentical($result, 1);
 	}
 
 	/**
-	 * countError()のテスト
+	 * countFailed()のテスト
 	 */
-	public function testCountError() {
-		$result = $this->QueueJob->countError();
+	public function testCountFailed() {
+		$result = $this->QueueJob->countFailed();
 		$this->assertIdentical($result, 2);
 
-		$result = $this->QueueJob->countError(1);
+		$result = $this->QueueJob->countFailed(1);
 		$this->assertIdentical($result, 2);
 	}
 }

@@ -948,7 +948,7 @@ class QueueJob extends QueueAppModel {
 	 * @param integer $queueId キューID
 	 * @return integer 該当するジョブの件数
 	 */
-	public function countIdle($queueId = null) {
+	public function countWaiting($queueId = null) {
 		return $this->countByStatus('idle', $queueId);
 	}
 
@@ -988,7 +988,7 @@ class QueueJob extends QueueAppModel {
 	 * @param integer $queueId キューID
 	 * @return integer 該当するジョブの件数
 	 */
-	public function countSuccess($queueId = null) {
+	public function countCompleted($queueId = null) {
 		return $this->countByStatus('success', $queueId);
 	}
 
@@ -998,7 +998,7 @@ class QueueJob extends QueueAppModel {
 	 * @param integer $queueId キューID
 	 * @return integer 該当するジョブの件数
 	 */
-	public function countError($queueId = null) {
+	public function countFailed($queueId = null) {
 		return $this->countByStatus('error', $queueId);
 	}
 }

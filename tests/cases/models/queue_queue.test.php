@@ -601,17 +601,17 @@ class QueueQueueTestCase extends CakeTestCase {
 	}
 
 	/**
-	 * countIdleJob()のテスト
+	 * countWaitingJob()のテスト
 	 */
-	public function testCountIdleJob() {
-		$result = $this->QueueQueue->countIdleJob();
+	public function testCountWaitingJob() {
+		$result = $this->QueueQueue->countWaitingJob();
 		$this->assertIdentical($result, false);
 
 		$this->QueueQueue->select(1);
-		$result = $this->QueueQueue->countIdleJob();
+		$result = $this->QueueQueue->countWaitingJob();
 		$this->assertIdentical($result, 4);
 
-		$result = $this->QueueQueue->countIdleJob(1);
+		$result = $this->QueueQueue->countWaitingJob(1);
 		$this->assertIdentical($result, 4);
 	}
 
@@ -661,32 +661,32 @@ class QueueQueueTestCase extends CakeTestCase {
 	}
 
 	/**
-	 * countSuccessJob()のテスト
+	 * countCompletedJob()のテスト
 	 */
-	public function testCountSuccessJob() {
-		$result = $this->QueueQueue->countSuccessJob();
+	public function testCountCompletedJob() {
+		$result = $this->QueueQueue->countCompletedJob();
 		$this->assertIdentical($result, false);
 
 		$this->QueueQueue->select(1);
-		$result = $this->QueueQueue->countSuccessJob();
+		$result = $this->QueueQueue->countCompletedJob();
 		$this->assertIdentical($result, 1);
 
-		$result = $this->QueueQueue->countSuccessJob(1);
+		$result = $this->QueueQueue->countCompletedJob(1);
 		$this->assertIdentical($result, 1);
 	}
 
 	/**
-	 * countErrorJob()のテスト
+	 * countFailedJob()のテスト
 	 */
-	public function testCountErrorJob() {
-		$result = $this->QueueQueue->countErrorJob();
+	public function testCountFailedJob() {
+		$result = $this->QueueQueue->countFailedJob();
 		$this->assertIdentical($result, false);
 
 		$this->QueueQueue->select(1);
-		$result = $this->QueueQueue->countErrorJob();
+		$result = $this->QueueQueue->countFailedJob();
 		$this->assertIdentical($result, 2);
 
-		$result = $this->QueueQueue->countErrorJob(1);
+		$result = $this->QueueQueue->countFailedJob(1);
 		$this->assertIdentical($result, 2);
 	}
 }
