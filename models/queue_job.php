@@ -912,7 +912,7 @@ class QueueJob extends QueueAppModel {
 	 * @param integer $queueId キューID
 	 * @return integer 該当するジョブの件数
 	 */
-	public function countByStatus($statuses = null, $queueId = null) {
+	protected function countByStatus($statuses = null, $queueId = null) {
 		$options = array();
 
 		// ステータスの検索条件を生成
@@ -933,13 +933,23 @@ class QueueJob extends QueueAppModel {
 	}
 
 	/**
+	 * 全ジョブ数を取得
+	 *
+	 * @param integer $queueId キューID
+	 * @return integer 該当するジョブの件数
+	 */
+	public function countAll($queueId = null) {
+		return $this->countByStatus(null, $queueId);
+	}
+
+	/**
 	 * 実行待ち中のジョブ数を取得
 	 *
 	 * @param integer $queueId キューID
 	 * @return integer 該当するジョブの件数
 	 */
 	public function countIdle($queueId = null) {
-		return $this->countByStatus(array('idle'), $queueId);
+		return $this->countByStatus('idle', $queueId);
 	}
 
 	/**
@@ -949,7 +959,7 @@ class QueueJob extends QueueAppModel {
 	 * @return integer 該当するジョブの件数
 	 */
 	public function countLocked($queueId = null) {
-		return $this->countByStatus(array('locked'), $queueId);
+		return $this->countByStatus('locked', $queueId);
 	}
 
 	/**
@@ -959,7 +969,7 @@ class QueueJob extends QueueAppModel {
 	 * @return integer 該当するジョブの件数
 	 */
 	public function countStopped($queueId = null) {
-		return $this->countByStatus(array('stopped'), $queueId);
+		return $this->countByStatus('stopped', $queueId);
 	}
 
 	/**
@@ -969,7 +979,7 @@ class QueueJob extends QueueAppModel {
 	 * @return integer 該当するジョブの件数
 	 */
 	public function countRunning($queueId = null) {
-		return $this->countByStatus(array('running'), $queueId);
+		return $this->countByStatus('running', $queueId);
 	}
 
 	/**
@@ -979,7 +989,7 @@ class QueueJob extends QueueAppModel {
 	 * @return integer 該当するジョブの件数
 	 */
 	public function countSuccess($queueId = null) {
-		return $this->countByStatus(array('success'), $queueId);
+		return $this->countByStatus('success', $queueId);
 	}
 
 	/**

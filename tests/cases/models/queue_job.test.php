@@ -20,6 +20,10 @@ class TestQueueJob extends QueueJob {
 	public function testStatus($status, $id = null) {
 		return $this->status($status, $id);
 	}
+
+	public function testCountByStatus($statuses = null, $queueId = null) {
+		return $this->countByStatus($statuses, $queueId);
+	}
 }
 
 class QueueJobTestCase extends CakeTestCase {
@@ -905,17 +909,28 @@ class QueueJobTestCase extends CakeTestCase {
 	 * countByStatus()のテスト
 	 */
 	public function testCountByStatus() {
-		$result = $this->QueueJob->countByStatus();
+		$result = $this->QueueJob->testCountByStatus();
 		$this->assertIdentical($result, 12);
 
-		$result = $this->QueueJob->countByStatus(null, 1);
+		$result = $this->QueueJob->testCountByStatus(null, 1);
 		$this->assertIdentical($result, 10);
 
-		$result = $this->QueueJob->countByStatus('idle');
+		$result = $this->QueueJob->testCountByStatus('idle');
 		$this->assertIdentical($result, 5);
 
-		$result = $this->QueueJob->countByStatus(array('success', 'error'));
+		$result = $this->QueueJob->testCountByStatus(array('success', 'error'));
 		$this->assertIdentical($result, 3);
+	}
+
+	/**
+	 * countAll()のテスト
+	 */
+	public function testCountAll() {
+		$result = $this->QueueJob->countAll();
+		$this->assertIdentical($result, 12);
+
+		$result = $this->QueueJob->countAll(1);
+		$this->assertIdentical($result, 10);
 	}
 
 	/**
