@@ -488,7 +488,7 @@ class QueueJob extends QueueAppModel {
 				$type_conditions[] = array($this->alias . '.type' => $type);
 			}
 
-			$options['conditions']['and'] = array('or' => $type_conditions);
+			$options['conditions']['or'] = $type_conditions;
 		}
 
 		$data = $this->find('first', $options);
