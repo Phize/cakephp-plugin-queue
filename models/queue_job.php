@@ -904,4 +904,91 @@ class QueueJob extends QueueAppModel {
 
 		return ($this->deleteAll($conditions) !== false);
 	}
+
+	/**
+	 * ステータスからジョブ数を取得
+	 *
+	 * @param array $statuses ステータス
+	 * @param integer $queueId キューID
+	 * @return integer 該当するジョブの件数
+	 */
+	public function countByStatus($statuses = null, $queueId = null) {
+		$options = array();
+
+		// ステータスの検索条件を生成
+		if ($statuses !== null) {
+			if (!is_array($statuses)) $statuses = array($statuses);
+
+			$status_conditions = array();
+			foreach ($statuses as $status) {
+				$status_conditions[] = array($this->alias . '.status' => $status);
+			}
+
+			$options['conditions'] = array('or' => $status_conditions);
+		}
+
+		if ($queueId !== null) $options['conditions'][$this->alias . '.' . $this->belongsTo['QueueQueue']['foreignKey']] = $queueId;
+
+		return $this->find('count', $options);
+	}
+
+	/**
+	 * 実行待ち中のジョブ数を取得
+	 *
+	 * @param integer $queueId キューID
+	 * @return integer 該当するジョブの件数
+	 */
+	public function countIdle($queueId = null) {
+		return $this->countByStatus(array('idle'), $queueId);
+	}
+
+	/**
+	 * ロック中のジョブ数を取得
+	 *
+	 * @param integer $queueId キューID
+	 * @return integer 該当するジョブの件数
+	 */
+	public function countLocked($queueId = null) {
+		return $this->countByStatus(array('locked'), $queueId);
+	}
+
+	/**
+	 * 停止中のジョブ数を取得
+	 *
+	 * @param integer $queueId キューID
+	 * @return integer 該当するジョブの件数
+	 */
+	public function countStopped($queueId = null) {
+		return $this->countByStatus(array('stopped'), $queueId);
+	}
+
+	/**
+	 * 実行中のジョブ数を取得
+	 *
+	 * @param integer $queueId キューID
+	 * @return integer 該当するジョブの件数
+	 */
+	public function countRunning($queueId = null) {
+		return $this->countByStatus(array('running'), $queueId);
+	}
+
+	/**
+	 * 成功済みのジョブ数を取得
+	 *
+	 * @param integer $queueId キューID
+	 * @return integer 該当するジョブの件数
+	 */
+	public function countSuccess($queueId = null) {
+		return $this->countByStatus(array('success'), $queueId);
+	}
+
+	/**
+	 * エラーが発生したジョブ数を取得
+	 *
+	 * @param integer $queueId キューID
+	 * @return integer 該当するジョブの件数
+	 */
+	public function countError($queueId = null) {
+		return $this->countByStatus('error', $queueId);
+	}
 }

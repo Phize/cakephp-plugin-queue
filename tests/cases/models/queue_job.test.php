@@ -900,4 +900,87 @@ class QueueJobTestCase extends CakeTestCase {
 		$result = $this->QueueJob->cleanAll();
 		$this->assertIdentical($result, true);
 	}
+
+	/**
+	 * countByStatus()のテスト
+	 */
+	public function testCountByStatus() {
+		$result = $this->QueueJob->countByStatus();
+		$this->assertIdentical($result, 12);
+
+		$result = $this->QueueJob->countByStatus(null, 1);
+		$this->assertIdentical($result, 10);
+
+		$result = $this->QueueJob->countByStatus('idle');
+		$this->assertIdentical($result, 5);
+
+		$result = $this->QueueJob->countByStatus(array('success', 'error'));
+		$this->assertIdentical($result, 3);
+	}
+
+	/**
+	 * countIdle()のテスト
+	 */
+	public function testCountIdle() {
+		$result = $this->QueueJob->countIdle();
+		$this->assertIdentical($result, 5);
+
+		$result = $this->QueueJob->countIdle(1);
+		$this->assertIdentical($result, 4);
+	}
+
+	/**
+	 * countLocked()のテスト
+	 */
+	public function testCountLocked() {
+		$result = $this->QueueJob->countLocked();
+		$this->assertIdentical($result, 1);
+
+		$result = $this->QueueJob->countLocked(1);
+		$this->assertIdentical($result, 1);
+	}
+
+	/**
+	 * countStopped()のテスト
+	 */
+	public function testCountStopped() {
+		$result = $this->QueueJob->countStopped();
+		$this->assertIdentical($result, 1);
+
+		$result = $this->QueueJob->countStopped(1);
+		$this->assertIdentical($result, 1);
+	}
+
+	/**
+	 * countRunning()のテスト
+	 */
+	public function testCountRunning() {
+		$result = $this->QueueJob->countRunning();
+		$this->assertIdentical($result, 2);
+
+		$result = $this->QueueJob->countRunning(1);
+		$this->assertIdentical($result, 1);
+	}
+
+	/**
+	 * countSuccess()のテスト
+	 */
+	public function testCountSuccess() {
+		$result = $this->QueueJob->countSuccess();
+		$this->assertIdentical($result, 1);
+
+		$result = $this->QueueJob->countSuccess(1);
+		$this->assertIdentical($result, 1);
+	}
+
+	/**
+	 * countError()のテスト
+	 */
+	public function testCountError() {
+		$result = $this->QueueJob->countError();
+		$this->assertIdentical($result, 2);
+
+		$result = $this->QueueJob->countError(1);
+		$this->assertIdentical($result, 2);
+	}
 }
