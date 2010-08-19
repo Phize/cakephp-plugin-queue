@@ -472,6 +472,48 @@ class QueueQueue extends QueueAppModel {
 	}
 
 	/**
+	 * ステータスからキュー数を取得
+	 *
+	 * @param array $statuses ステータス
+	 * @return integer 該当するキューの件数
+	 */
+	public function countByStatus($statuses = null) {
+		$options = array();
+
+		// ステータスの検索条件を生成
+		if ($statuses !== null) {
+			if (!is_array($statuses)) $statuses = array($statuses);
+
+			$status_conditions = array();
+			foreach ($statuses as $status) {
+				$status_conditions[] = array($this->alias . '.status' => $status);
+			}
+
+			$options['conditions'] = array('or' => $status_conditions);
+		}
+
+		return $this->find('count', $options);
+	}
+
+	/**
+	 * 停止中のキュー数を取得
+	 *
+	 * @return integer 該当するキューの件数
+	 */
+	public function countStopped() {
+		return $this->countByStatus(array('stopped'));
+	}
+
+	/**
+	 * 稼働中のキュー数を取得
+	 *
+	 * @return integer 該当するキューの件数
+	 */
+	public function countRunning() {
+		return $this->countByStatus(array('running'));
+	}
+
+	/**
 	 * ステータスからジョブ数を取得
 	 *
 	 * @param array $statuses ステータス

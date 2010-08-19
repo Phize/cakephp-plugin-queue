@@ -544,6 +544,36 @@ class QueueQueueTestCase extends CakeTestCase {
 	}
 
 	/**
+	 * countByStatus()のテスト
+	 */
+	public function testCountByStatus() {
+		$result = $this->QueueQueue->countByStatus();
+		$this->assertIdentical($result, 2);
+
+		$result = $this->QueueQueue->countByStatus('stopped');
+		$this->assertIdentical($result, 1);
+
+		$result = $this->QueueQueue->countByStatus(array('stopped', 'running'));
+		$this->assertIdentical($result, 2);
+	}
+
+	/**
+	 * countStopped()のテスト
+	 */
+	public function testCountStopped() {
+		$result = $this->QueueQueue->countStopped();
+		$this->assertIdentical($result, 1);
+	}
+
+	/**
+	 * countRunning()のテスト
+	 */
+	public function testCountRunning() {
+		$result = $this->QueueQueue->countRunning();
+		$this->assertIdentical($result, 1);
+	}
+
+	/**
 	 * countJobByStatus()のテスト
 	 */
 	public function testCountJobByStatus() {
