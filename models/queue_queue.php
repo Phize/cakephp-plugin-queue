@@ -470,4 +470,77 @@ class QueueQueue extends QueueAppModel {
 
 		return $this->QueueJob->cleanAll($id);
 	}
+
+	/**
+	 * ステータスからジョブ数を取得
+	 *
+	 * @param array $statuses ステータス
+	 * @param integer $id キューID
+	 * @return integer 該当するジョブの件数
+	 */
+	public function countJobByStatus($statuses = null, $id = null) {
+		if (($id = $this->_getId($id)) === false) return false;
+
+		return $this->QueueJob->countByStatus($statuses, $id);
+	}
+
+	/**
+	 * 実行待ち中のジョブ数を取得
+	 *
+	 * @param integer $id キューID
+	 * @return integer 該当するジョブの件数
+	 */
+	public function countIdleJob($id = null) {
+		return $this->countJobByStatus(array('idle'), $id);
+	}
+
+	/**
+	 * ロック中のジョブ数を取得
+	 *
+	 * @param integer $id キューID
+	 * @return integer 該当するジョブの件数
+	 */
+	public function countLockedJob($id = null) {
+		return $this->countJobByStatus(array('locked'), $id);
+	}
+
+	/**
+	 * 停止中のジョブ数を取得
+	 *
+	 * @param integer $id キューID
+	 * @return integer 該当するジョブの件数
+	 */
+	public function countStoppedJob($id = null) {
+		return $this->countJobByStatus(array('stopped'), $id);
+	}
+
+	/**
+	 * 実行中のジョブ数を取得
+	 *
+	 * @param integer $id キューID
+	 * @return integer 該当するジョブの件数
+	 */
+	public function countRunningJob($id = null) {
+		return $this->countJobByStatus(array('running'), $id);
+	}
+
+	/**
+	 * 成功済みのジョブ数を取得
+	 *
+	 * @param integer $id キューID
+	 * @return integer 該当するジョブの件数
+	 */
+	public function countSuccessJob($id = null) {
+		return $this->countJobByStatus(array('success'), $id);
+	}
+
+	/**
+	 * エラーが発生したジョブ数を取得
+	 *
+	 * @param integer $id キューID
+	 * @return integer 該当するジョブの件数
+	 */
+	public function countErrorJob($id = null) {
+		return $this->countJobByStatus('error', $id);
+	}
 }

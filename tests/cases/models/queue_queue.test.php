@@ -542,4 +542,113 @@ class QueueQueueTestCase extends CakeTestCase {
 		$result = $this->QueueQueue->clean();
 		$this->assertIdentical($result, true);
 	}
+
+	/**
+	 * countJobByStatus()のテスト
+	 */
+	public function testCountJobByStatus() {
+		$result = $this->QueueQueue->countJobByStatus();
+		$this->assertIdentical($result, false);
+
+		$result = $this->QueueQueue->countJobByStatus(null, 1);
+		$this->assertIdentical($result, 10);
+
+		$this->QueueQueue->select(1);
+		$result = $this->QueueQueue->countJobByStatus('idle');
+		$this->assertIdentical($result, 4);
+
+		$this->QueueQueue->select(1);
+		$result = $this->QueueQueue->countJobByStatus(array('success', 'error'));
+		$this->assertIdentical($result, 3);
+	}
+
+	/**
+	 * countIdleJob()のテスト
+	 */
+	public function testCountIdleJob() {
+		$result = $this->QueueQueue->countIdleJob();
+		$this->assertIdentical($result, false);
+
+		$this->QueueQueue->select(1);
+		$result = $this->QueueQueue->countIdleJob();
+		$this->assertIdentical($result, 4);
+
+		$result = $this->QueueQueue->countIdleJob(1);
+		$this->assertIdentical($result, 4);
+	}
+
+	/**
+	 * countLockedJob()のテスト
+	 */
+	public function testCountLockedJob() {
+		$result = $this->QueueQueue->countLockedJob();
+		$this->assertIdentical($result, false);
+
+		$this->QueueQueue->select(1);
+		$result = $this->QueueQueue->countLockedJob();
+		$this->assertIdentical($result, 1);
+
+		$result = $this->QueueQueue->countLockedJob(1);
+		$this->assertIdentical($result, 1);
+	}
+
+	/**
+	 * countStoppedJob()のテスト
+	 */
+	public function testCountStoppedJob() {
+		$result = $this->QueueQueue->countStoppedJob();
+		$this->assertIdentical($result, false);
+
+		$this->QueueQueue->select(1);
+		$result = $this->QueueQueue->countStoppedJob();
+		$this->assertIdentical($result, 1);
+
+		$result = $this->QueueQueue->countStoppedJob(1);
+		$this->assertIdentical($result, 1);
+	}
+
+	/**
+	 * countRunningJob()のテスト
+	 */
+	public function testCountRunningJob() {
+		$result = $this->QueueQueue->countRunningJob();
+		$this->assertIdentical($result, false);
+
+		$this->QueueQueue->select(1);
+		$result = $this->QueueQueue->countRunningJob();
+		$this->assertIdentical($result, 1);
+
+		$result = $this->QueueQueue->countRunningJob(1);
+		$this->assertIdentical($result, 1);
+	}
+
+	/**
+	 * countSuccessJob()のテスト
+	 */
+	public function testCountSuccessJob() {
+		$result = $this->QueueQueue->countSuccessJob();
+		$this->assertIdentical($result, false);
+
+		$this->QueueQueue->select(1);
+		$result = $this->QueueQueue->countSuccessJob();
+		$this->assertIdentical($result, 1);
+
+		$result = $this->QueueQueue->countSuccessJob(1);
+		$this->assertIdentical($result, 1);
+	}
+
+	/**
+	 * countErrorJob()のテスト
+	 */
+	public function testCountErrorJob() {
+		$result = $this->QueueQueue->countErrorJob();
+		$this->assertIdentical($result, false);
+
+		$this->QueueQueue->select(1);
+		$result = $this->QueueQueue->countErrorJob();
+		$this->assertIdentical($result, 2);
+
+		$result = $this->QueueQueue->countErrorJob(1);
+		$this->assertIdentical($result, 2);
+	}
 }
